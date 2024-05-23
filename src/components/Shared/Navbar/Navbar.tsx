@@ -45,8 +45,12 @@ const Navbar = () => {
             </ul>
          </div>
          <div className="flex items-center gap-5">
-            <Button variant="outline">Sign In</Button>
-            <Button>Sign Up</Button>
+            <Link href="/login">
+               <Button variant="outline">Sign In</Button>
+            </Link>
+            <Link href="/register">
+               <Button>Sign Up</Button>
+            </Link>
          </div>
       </div>
    );

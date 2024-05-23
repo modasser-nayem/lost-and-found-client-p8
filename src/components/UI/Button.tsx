@@ -4,11 +4,18 @@ type ButtonProps = {
    children: React.ReactNode;
    variant?: "fill" | "outline";
    className?: string;
+   type?: "button" | "reset" | "submit";
 };
 
-const Button = ({ children, variant = "fill", className }: ButtonProps) => {
+const Button = ({
+   children,
+   variant = "fill",
+   className,
+   type,
+}: ButtonProps) => {
    return (
       <button
+         type={type}
          className={`${className} ${
             variant === "fill"
                ? "bg-primary text-white border-[2px] border-primary"
