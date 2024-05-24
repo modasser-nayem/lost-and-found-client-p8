@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../Button";
+import Link from "next/link";
 
 const HeroSection = () => {
    return (
@@ -15,8 +16,12 @@ const HeroSection = () => {
                inventore temporibus dolorum accusamus.
             </p>
             <div className="flex items-center gap-4">
-               <Button>Report Lost item</Button>
-               <Button variant="outline">Report Found item</Button>
+               <Link href="report-lost-item">
+                  <Button>Report Lost item</Button>
+               </Link>
+               <Link href="report-found-item">
+                  <Button variant="outline">Report Found item</Button>
+               </Link>
             </div>
          </div>
       </div>

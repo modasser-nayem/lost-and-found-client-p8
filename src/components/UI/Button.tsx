@@ -5,6 +5,7 @@ type ButtonProps = {
    variant?: "fill" | "outline";
    className?: string;
    type?: "button" | "reset" | "submit";
+   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Button = ({
@@ -12,10 +13,12 @@ const Button = ({
    variant = "fill",
    className,
    type,
+   onClick,
 }: ButtonProps) => {
    return (
       <button
          type={type}
+         onClick={onClick}
          className={`${className} ${
             variant === "fill"
                ? "bg-primary text-white border-[2px] border-primary"

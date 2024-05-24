@@ -3,8 +3,7 @@ import React, { ChangeEvent } from "react";
 import { Controller } from "react-hook-form";
 import { RiErrorWarningFill } from "react-icons/ri";
 
-type InputItemProps = {
-   type: TInputType;
+type InputTextAreaProps = {
    label: string;
    name: string;
    value?: any;
@@ -15,8 +14,7 @@ type InputItemProps = {
    readonly?: boolean;
 };
 
-const InputItem = ({
-   type,
+const InputTextArea = ({
    label,
    name,
    value,
@@ -24,7 +22,7 @@ const InputItem = ({
    className,
    readonly,
    required,
-}: InputItemProps) => {
+}: InputTextAreaProps) => {
    return (
       <div className="flex flex-col w-full mb-5">
          <label
@@ -38,13 +36,12 @@ const InputItem = ({
             name={name}
             render={({ field, fieldState: { error } }) => (
                <>
-                  <input
+                  <textarea
                      {...field}
                      id={name}
                      className={`${className} px-3 py-2.5 border-2 ${
                         error?.message ? "border-red-700" : "border-gray-500"
                      } focus:border-primary outline-none rounded-md`}
-                     type={type}
                      value={value}
                      placeholder={placeholder}
                      readOnly={readonly}
@@ -61,4 +58,4 @@ const InputItem = ({
    );
 };
 
-export default InputItem;
+export default InputTextArea;

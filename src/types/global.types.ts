@@ -5,6 +5,7 @@ export type TInputType =
    | "email"
    | "tel"
    | "url"
+   | "file"
    | "search"
    | "date"
    | "time"

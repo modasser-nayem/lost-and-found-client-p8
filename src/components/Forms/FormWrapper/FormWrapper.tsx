@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
    FieldValues,
    FormProvider,
@@ -10,10 +10,16 @@ type FormConfig = {
    defaultValues?: Record<string, any>;
 };
 
+type TErrors = {
+   field: string;
+   message: string;
+};
+
 type FormWrapperProps = {
    children: React.ReactNode;
    onSubmit: SubmitHandler<FieldValues>;
    success?: boolean;
+   errors?: TErrors[];
 } & FormConfig;
 
 const FormWrapper = ({
@@ -21,6 +27,7 @@ const FormWrapper = ({
    onSubmit,
    success,
    defaultValues,
+   errors,
 }: FormWrapperProps) => {
    const formConfig: FormConfig = {};
 
@@ -33,9 +40,22 @@ const FormWrapper = ({
       onSubmit(data);
    };
 
-   if (success) {
-      methods.reset();
-   }
+   useEffect(() => {
+      if (success) {
+         methods.reset();
+      }
+   }, [success, methods]);
+
+   useEffect(() => {
+      if (errors && errors.length) {
+         errors.forEach((error) =>
+            methods.setError(error.field, {
+               type: "manual",
+               message: error.message,
+            })
+         );
+      }
+   }, [errors, methods]);
 
    return (
       <>
