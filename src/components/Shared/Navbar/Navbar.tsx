@@ -1,21 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import logo from "@/assets/logo.png";
 import Button from "@/components/UI/Button";
 import Link from "next/link";
-import { getUserInfo } from "@/services/auth.services";
-import { useRouter } from "next/navigation";
-import { logoutUser } from "@/services/actions/logoutUser";
-import useUserInfo from "@/hooks/useUserInfo";
+import { usePathname, useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { logOutUser } from "@/redux/features/auth";
 
 const Navbar = () => {
    const router = useRouter();
-   const userInfo = useUserInfo();
+   const pathname = usePathname();
+   const dispatch = useAppDispatch();
+   const user = useAppSelector((state) => state.auth.user);
 
    const handleLogOut = () => {
-      logoutUser(router);
+      dispatch(logOutUser());
+      router.push("/");
+      router.refresh();
    };
 
    const navLinks = [
@@ -29,10 +32,27 @@ const Navbar = () => {
       },
    ];
 
-   if (userInfo) {
+   if (user?.role) {
+      navLinks.push(
+         {
+            path: "/my-profile",
+            name: "My Profile",
+         },
+         {
+            path: "/my-lost-report",
+            name: "My Lost Report",
+         }
+      );
+   }
+
+   if (user?.role === "admin") {
       navLinks.push({
          path: "/my-profile",
          name: "My Profile",
+      });
+      navLinks.push({
+         path: "/dashboard",
+         name: "Dashboard",
       });
    }
 
@@ -53,7 +73,9 @@ const Navbar = () => {
                   <Link
                      key={i}
                      href={nav.path}
-                     className={`font-medium hover:text-primary`}
+                     className={`font-medium hover:text-primary ${
+                        pathname === nav.path && "text-primary"
+                     }`}
                   >
                      {nav.name}
                   </Link>
@@ -61,7 +83,7 @@ const Navbar = () => {
             </ul>
          </div>
          <div className="flex items-center gap-5">
-            {userInfo ? (
+            {user ? (
                <Button onClick={handleLogOut}>Logout</Button>
             ) : (
                <>

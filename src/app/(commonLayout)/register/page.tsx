@@ -3,8 +3,9 @@
 import FormWrapper from "@/components/Forms/FormWrapper/FormWrapper";
 import InputItem from "@/components/Forms/InputItem/InputItem";
 import Button from "@/components/UI/Button";
-import { loginUser, registerUser } from "@/services/actions/auth";
-import { storeUserInfo } from "@/services/auth.services";
+import { useRegisterUserMutation } from "@/redux/api/authApi";
+import { isReduxRTQError } from "@/redux/api/baseApi";
+import { useAppDispatch } from "@/redux/hook";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -14,31 +15,39 @@ import { toast } from "sonner";
 const RegisterPage = () => {
    const router = useRouter();
    const [errors, setErrors] = useState([]);
-   const [isSuccess, setIsSuccess] = useState(false);
-   const [loginData, setLoginData] = useState({});
+   const dispatch = useAppDispatch();
+   //    try {
+   //       const res = await registerUser(formData);
+
+   //       console.log(res);
+
+   //       if (!res?.errorDetails && res.success === false) {
+   //          toast.error(res.message);
+   //       }
+
+   //       if (res?.errorDetails) {
+   //          setErrors(res.errorDetails);
+   //       }
+
+   //       if (res?.success === true) {
+   //          toast.success(res.message);
+   //          setLoginData({
+   //             emailOrUsername: formData.email,
+   //             password: formData.password,
+   //          });
+   //          setIsSuccess(true);
+   //       }
+   //    } catch (error: any) {
+   //       console.log(error);
+   //       toast.error("An error occurred during registration.");
+   //    }
+   // };
+
+   const [registerUser, { data, error, isSuccess }] = useRegisterUserMutation();
 
    const onSubmit: SubmitHandler<FieldValues> = async (formData) => {
       try {
-         const res = await registerUser(formData);
-
-         console.log(res);
-
-         if (!res?.errorDetails && res.success === false) {
-            toast.error(res.message);
-         }
-
-         if (res?.errorDetails) {
-            setErrors(res.errorDetails);
-         }
-
-         if (res?.success === true) {
-            toast.success(res.message);
-            setLoginData({
-               emailOrUsername: formData.email,
-               password: formData.password,
-            });
-            setIsSuccess(true);
-         }
+         registerUser(formData);
       } catch (error: any) {
          console.log(error);
          toast.error("An error occurred during registration.");
@@ -46,20 +55,19 @@ const RegisterPage = () => {
    };
 
    useEffect(() => {
-      const fetchData = async () => {
-         if (isSuccess) {
-            const result = await loginUser(loginData);
-            const token = result?.data?.access_token;
-            console.log(result);
-            if (token) {
-               storeUserInfo({ access_token: token });
-               router.push("/");
-            }
+      if (data) {
+         toast.success(data.message);
+         router.push("/login");
+      }
+      console.log({ error, data });
+      if (isReduxRTQError(error)) {
+         if (error?.data?.errorDetails) {
+            setErrors(error.data.errorDetails);
+         } else {
+            toast.error(error.data.message);
          }
-      };
-
-      fetchData();
-   }, [isSuccess, router, loginData]);
+      }
+   }, [data, error, router, dispatch]);
 
    return (
       <div className="flex items-center justify-center">

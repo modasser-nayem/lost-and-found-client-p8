@@ -19,7 +19,7 @@ export const baseApi = createApi({
       },
    }),
    endpoints: () => ({}),
-   tagTypes: ["user", "lost-item", "found-item", "claim-item"],
+   tagTypes: ["auth", "user", "lost-item", "found-item", "claim-item"],
 });
 
 interface TErrorData {

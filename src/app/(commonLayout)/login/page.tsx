@@ -3,8 +3,11 @@
 import FormWrapper from "@/components/Forms/FormWrapper/FormWrapper";
 import InputItem from "@/components/Forms/InputItem/InputItem";
 import Button from "@/components/UI/Button";
-import { loginUser } from "@/services/actions/auth";
-import { storeUserInfo } from "@/services/auth.services";
+import { useLoginUserMutation } from "@/redux/api/authApi";
+import { isReduxRTQError } from "@/redux/api/baseApi";
+import { TDecodeUser, setUser } from "@/redux/features/auth";
+import { useAppDispatch } from "@/redux/hook";
+import { decodedToken } from "@/utils/jwt";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -14,28 +17,13 @@ import { toast } from "sonner";
 const LoginPage = () => {
    const router = useRouter();
    const [errors, setErrors] = useState([]);
-   const [isSuccess, setIsSuccess] = useState(false);
+   const dispatch = useAppDispatch();
+
+   const [loginUser, { data, error, isSuccess }] = useLoginUserMutation();
 
    const onSubmit: SubmitHandler<FieldValues> = async (formData) => {
       try {
-         const res = await loginUser(formData);
-
-         console.log(res);
-
-         if (!res?.errorDetails && res.success === false) {
-            toast.error(res.message);
-         }
-
-         if (res?.errorDetails) {
-            setErrors(res.errorDetails);
-         }
-
-         const token = res?.data?.access_token;
-         if (token) {
-            toast.success(res.message);
-            storeUserInfo({ access_token: token });
-            setIsSuccess(true);
-         }
+         loginUser(formData);
       } catch (error: any) {
          console.log(error);
          toast.error("An error occurred during login.");
@@ -43,10 +31,22 @@ const LoginPage = () => {
    };
 
    useEffect(() => {
-      if (isSuccess) {
+      if (data) {
+         toast.success(data.message);
+         const token = data?.data?.access_token as string;
+         const user = decodedToken(token) as TDecodeUser;
+         dispatch(setUser({ token: token, user }));
          router.push("/");
       }
-   }, [isSuccess, router]);
+      console.log({ error, data });
+      if (isReduxRTQError(error)) {
+         if (error?.data?.errorDetails) {
+            setErrors(error.data.errorDetails);
+         } else {
+            toast.error(error.data.message);
+         }
+      }
+   }, [data, error, router, dispatch]);
 
    return (
       <div className="flex items-center justify-center">
