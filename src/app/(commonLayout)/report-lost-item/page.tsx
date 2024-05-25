@@ -5,29 +5,29 @@ import InputItem from "@/components/Forms/InputItem/InputItem";
 import InputTextArea from "@/components/Forms/InputTextArea/InputTextArea";
 import Button from "@/components/UI/Button";
 import FileUpload from "@/components/Forms/FileUpload/FileUpload";
+import MultipleInputSelect from "@/components/Forms/MultipleInputSelect/MultipleInputSelect";
 import { isReduxRTQError } from "@/redux/api/baseApi";
-import { useReportFoundItemMutation } from "@/redux/api/foundItemApi";
+import { useReportLostReportMutation } from "@/redux/api/lostItemApi";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
-import MultipleInputSelect from "@/components/Forms/MultipleInputSelect/MultipleInputSelect";
 
-const ReportFoundItemPage = () => {
+const ReportLostItemPage = () => {
    const router = useRouter();
    const [errors, setErrors] = useState([]);
    const [imgValues, setImgValues] = useState<string[]>([]);
 
-   const [reportFoundItem, { data, error }] = useReportFoundItemMutation();
+   const [reportLostItem, { data, error }] = useReportLostReportMutation();
 
    const onSubmit: SubmitHandler<FieldValues> = async (formData) => {
       try {
-         if (formData.foundDate) {
-            formData.foundDate = new Date(formData.foundDate).toISOString();
+         if (formData.lostDate) {
+            formData.lostDate = new Date(formData.lostDate).toISOString();
          }
          formData = { ...formData, images: imgValues };
 
-         reportFoundItem(formData);
+         reportLostItem(formData);
       } catch (error: any) {
          console.log(error);
          toast.error("An error occurred during report found item.");
@@ -37,7 +37,7 @@ const ReportFoundItemPage = () => {
    useEffect(() => {
       if (data) {
          toast.success(data.message);
-         router.push("/my-found-reports");
+         router.push("/my-lost-reports");
       }
       console.log({ error, data });
       if (isReduxRTQError(error)) {
@@ -49,9 +49,9 @@ const ReportFoundItemPage = () => {
       }
    }, [data, error, router]);
 
-   // const handleFilesChange = (files: File[]) => {
-   //    console.log(files);
-   // };
+   //    const handleFilesChange = (files: File[]) => {
+   //       console.log(files);
+   //    };
 
    return (
       <div className="flex items-center justify-center">
@@ -62,7 +62,7 @@ const ReportFoundItemPage = () => {
                errors={errors}
             >
                <h2 className="text-2xl font-semibold mb-5">
-                  Report A Found Item
+                  Report A Lost Item
                </h2>
                <div className="flex justify-between gap-10">
                   <div className="flex-1">
@@ -70,7 +70,7 @@ const ReportFoundItemPage = () => {
                         type="text"
                         label="Title"
                         name="title"
-                        placeholder="What was found"
+                        placeholder="What was lost"
                         required={true}
                      />
                      <InputItem
@@ -97,15 +97,15 @@ const ReportFoundItemPage = () => {
                   <div className="flex-1">
                      <InputItem
                         type="date"
-                        label="Found Date"
-                        name="foundDate"
+                        label="Lost Date"
+                        name="lostDate"
                         required={true}
                      />
                      <InputItem
                         type="text"
                         label="Location"
-                        name="foundLocation"
-                        placeholder="Where is it found"
+                        name="lostLocation"
+                        placeholder="Where is it lost"
                         required={true}
                      />
                      <MultipleInputSelect
@@ -157,4 +157,4 @@ const ReportFoundItemPage = () => {
    );
 };
 
-export default ReportFoundItemPage;
+export default ReportLostItemPage;

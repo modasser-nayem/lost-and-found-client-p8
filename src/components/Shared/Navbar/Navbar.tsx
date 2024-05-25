@@ -39,8 +39,8 @@ const Navbar = () => {
             name: "My Profile",
          },
          {
-            path: "/my-lost-report",
-            name: "My Lost Report",
+            path: "/my-lost-reports",
+            name: "My Lost Reports",
          }
       );
    }

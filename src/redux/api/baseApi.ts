@@ -1,6 +1,5 @@
-import { authKey } from "@/constants/auth";
-import { getFromLocalStorage } from "@/utils/localStorage";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { RootState } from "../store";
 
 const apiUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
@@ -9,9 +8,9 @@ export const baseApi = createApi({
    reducerPath: "api",
    baseQuery: fetchBaseQuery({
       baseUrl: apiUrl,
-      prepareHeaders: (headers) => {
+      prepareHeaders: (headers, { getState }) => {
          // get token in state
-         const token = localStorage.getItem(authKey);
+         const token = (getState() as RootState).auth.token;
          console.log(token);
          if (token) {
             headers.set("authorization", token);
