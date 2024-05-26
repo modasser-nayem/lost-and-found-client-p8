@@ -29,3 +29,39 @@ export type TMySingleFoundItem = {
       claimItems: true;
    };
 };
+
+export type TFoundItem = {
+   id: string;
+   title: string;
+   category: string;
+   brand: string;
+   foundDate: string;
+   foundLocation: string;
+   createdAt: string;
+   user: {
+      id: string;
+      name: string;
+      photoURL?: string;
+   };
+   _count: {
+      claimItems: number;
+   };
+};
+
+export type TSingleFoundReport = {
+   id: string;
+   title: string;
+   description: string;
+   category: string;
+   brand: string;
+   images: string[];
+   foundDate: string;
+   foundLocation: string;
+   username: null | string;
+   email: string;
+   phone: null | string;
+   createdAt: string;
+   _count: {
+      claimItems: number;
+   };
+};

@@ -30,26 +30,24 @@ const Navbar = () => {
          path: "/about-us",
          name: "About Us",
       },
+      {
+         path: "/all-lost-report",
+         name: "Lost Reports",
+      },
+      {
+         path: "/all-found-report",
+         name: "Found Reports",
+      },
    ];
 
    if (user?.role) {
-      navLinks.push(
-         {
-            path: "/my-profile",
-            name: "My Profile",
-         },
-         {
-            path: "/my-lost-reports",
-            name: "My Lost Reports",
-         }
-      );
-   }
-
-   if (user?.role === "admin") {
       navLinks.push({
          path: "/my-profile",
          name: "My Profile",
       });
+   }
+
+   if (user?.role === "admin") {
       navLinks.push({
          path: "/dashboard",
          name: "Dashboard",

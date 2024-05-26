@@ -1,7 +1,12 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
 import { TRtqQueryResponse } from "@/types/redux";
-import { TMyFoundItem, TMySingleFoundItem } from "@/types/foundItem";
+import {
+   TFoundItem,
+   TMyFoundItem,
+   TMySingleFoundItem,
+   TSingleFoundReport,
+} from "@/types/foundItem";
 
 const foundItemApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
@@ -28,25 +33,33 @@ const foundItemApi = baseApi.injectEndpoints({
             method: apiMethod.GET,
          }),
       }),
-      // incomplete
-      getAllFoundReport: build.query({
+      getAllFoundReport: build.query<TRtqQueryResponse<TFoundItem[]>, any>({
          query: () => ({
-            url: "/lost-items",
+            url: "/found-items",
             method: apiMethod.GET,
          }),
          providesTags: ["found-items"],
       }),
+      getSingleFoundReport: build.query<
+         TRtqQueryResponse<TSingleFoundReport>,
+         any
+      >({
+         query: ({ id }) => ({
+            url: `/found-items/${id}`,
+            method: apiMethod.GET,
+         }),
+      }),
       updateFoundReport: build.mutation({
-         query: ({ data, lostId }) => ({
-            url: `/found-items/${lostId}`,
+         query: ({ data, id }) => ({
+            url: `/found-items/${id}`,
             method: apiMethod.PUT,
             body: data,
          }),
-         invalidatesTags: ["lost-items"],
+         invalidatesTags: ["found-items"],
       }),
       deleteFoundReport: build.mutation({
-         query: ({ lostId }) => ({
-            url: `/found-items/${lostId}`,
+         query: ({ id }) => ({
+            url: `/found-items/${id}`,
             method: apiMethod.DELETE,
          }),
          invalidatesTags: ["found-items"],
@@ -58,4 +71,8 @@ export const {
    useReportFoundItemMutation,
    useGetMyAllFoundReportQuery,
    useGetMySingleFoundReportQuery,
+   useGetAllFoundReportQuery,
+   useGetSingleFoundReportQuery,
+   useUpdateFoundReportMutation,
+   useDeleteFoundReportMutation,
 } = foundItemApi;
