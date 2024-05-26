@@ -6,16 +6,18 @@ import {
    FaTag,
    FaBuilding,
    FaEdit,
+   FaHandshake,
 } from "react-icons/fa";
+import { IoNotifications, IoTime } from "react-icons/io5";
 import Button from "../Button";
 import moment from "moment";
-import { TMyLostItem } from "@/types/lostItem";
+import { TMyFoundItem } from "@/types/foundItem";
 
 type ItemCardProps = {
-   item: TMyLostItem;
+   item: TMyFoundItem;
 };
 
-const MyLostItemCard = ({ item }: ItemCardProps) => {
+const MyFoundItemCard = ({ item }: ItemCardProps) => {
    return (
       <div className="bg-white border-4 border-primary shadow-xl hover:shadow-2xl rounded-lg p-6 mb-4">
          <div className="flex flex-col justify-between h-full relative">
@@ -24,7 +26,7 @@ const MyLostItemCard = ({ item }: ItemCardProps) => {
             </h2>
             <Link
                className="absolute right-0 top-0"
-               href={`/update-lost-report/${item.id}`}
+               href={`/update-found-report/${item.id}`}
             >
                <FaEdit size={25} />
             </Link>
@@ -40,43 +42,52 @@ const MyLostItemCard = ({ item }: ItemCardProps) => {
                <div className="flex items-center mb-1">
                   <FaCalendarAlt className="mr-2" />
                   <span>
-                     Lost Date: {moment(item.lostDate).format("DD-MM-YYYY")}
+                     Found Date: {moment(item.foundDate).format("DD-MM-YYYY")}
                   </span>
                </div>
                <div className="flex items-center mb-1">
                   <FaMapMarkerAlt className="mr-2" />
-                  <span>Location: {item.lostLocation}</span>
+                  <span>Location: {item.foundLocation}</span>
                </div>
-               <p className="mb-1 text-lg">
-                  <span className="font-medium">Status: </span>
+               <div className="flex items-center mb-1">
+                  <FaHandshake className="mr-2" />
+                  <span className="font-medium mr-1">Give To Owner: </span>
                   <span
-                     className={`inline-block py-1 px-3 text-sm font-semibold rounded ${
-                        item.isFound === true
+                     className={`inline-block py-1 px-2 text-sm font-semibold rounded ${
+                        item.giveToOwner === true
                            ? "bg-green-200 text-green-800"
                            : "bg-red-200 text-red-800"
                      }`}
                   >
-                     {item.isFound === true ? "Found" : "Lost"}
+                     {item.giveToOwner === true ? "success" : "pending"}
                   </span>
-               </p>
-               {item.foundAt && (
-                  <div className="flex items-center mb-1">
-                     <FaCalendarAlt className="mr-2" />
-                     <span>
-                        Found Date: {moment(item.foundAt).format("DD-MM-YYYY")}
-                     </span>
-                  </div>
-               )}
+               </div>
+               <div className="flex items-center mb-1">
+                  <IoTime className="mr-2" />
+                  <span>
+                     Post At: {moment(item.createdAt).startOf("h").fromNow()}
+                  </span>
+               </div>
+            </div>
+            <div className="flex items-center mb-1">
+               <IoNotifications className="mr-2" />
+               <span className="font-medium mr-1">
+                  Claim Request:{" "}
+                  <span className="font-semibold">
+                     {item._count.claimItems}
+                  </span>
+               </span>
             </div>
             <div className="mt-4 flex items-center justify-between">
-               <Button
-                  disabled={item.isFound}
-                  className="text-xs py-1"
-                  variant="outline"
-               >
-                  Mark as Found
-               </Button>
-               <Link href={`/my-lost-reports/${item.id}`}>
+               <Link href={`/my-claim-request/${item.id}`}>
+                  <Button
+                     className="text-xs py-1"
+                     variant="outline"
+                  >
+                     Claim Request
+                  </Button>
+               </Link>
+               <Link href={`/my-found-reports/${item.id}`}>
                   <Button
                      className="text-xs py-1"
                      variant="outline"
@@ -90,4 +101,4 @@ const MyLostItemCard = ({ item }: ItemCardProps) => {
    );
 };
 
-export default MyLostItemCard;
+export default MyFoundItemCard;

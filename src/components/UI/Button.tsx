@@ -6,6 +6,7 @@ type ButtonProps = {
    className?: string;
    type?: "button" | "reset" | "submit";
    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+   disabled?: boolean;
 };
 
 const Button = ({
@@ -14,11 +15,13 @@ const Button = ({
    className,
    type,
    onClick,
+   disabled,
 }: ButtonProps) => {
    return (
       <button
          type={type}
          onClick={onClick}
+         disabled={disabled}
          className={`${className} ${
             variant === "fill"
                ? "bg-primary text-white border-[2px] border-primary"

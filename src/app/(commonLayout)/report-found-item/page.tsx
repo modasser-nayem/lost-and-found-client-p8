@@ -39,7 +39,6 @@ const ReportFoundItemPage = () => {
          toast.success(data.message);
          router.push("/my-found-reports");
       }
-      console.log({ error, data });
       if (isReduxRTQError(error)) {
          if (error?.data?.errorDetails) {
             setErrors(error.data.errorDetails);

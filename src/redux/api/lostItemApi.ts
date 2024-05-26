@@ -1,19 +1,7 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
-
-type MyAllLostReport = {
-   id: string;
-   title: string;
-   category: string;
-   brand: string;
-   images: string[];
-   lostDate: string;
-   lostLocation: string;
-   isFound: string;
-   foundAt: string;
-   createdAt: string;
-   updatedAt: string;
-};
+import { TRtqQueryResponse } from "@/types/redux";
+import { TMyLostItem } from "@/types/lostItem";
 
 type MySingleLostItem = {
    id: string;
@@ -33,8 +21,6 @@ type MySingleLostItem = {
    updatedAt: string;
 };
 
-type ResponseData<T> = { data?: T; error?: any };
-
 const lostItemApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
       reportLostReport: build.mutation({
@@ -43,23 +29,26 @@ const lostItemApi = baseApi.injectEndpoints({
             method: apiMethod.POST,
             body: data,
          }),
-         invalidatesTags: ["lost-item"],
+         invalidatesTags: ["lost-items"],
       }),
-      getMyAllLostReport: build.query<ResponseData<MyAllLostReport[]>, any>({
+      getMyAllLostReport: build.query<TRtqQueryResponse<TMyLostItem[]>, any>({
          query: () => ({
             url: "/lost-items/my",
             method: apiMethod.GET,
          }),
-         providesTags: ["lost-item"],
+         providesTags: ["lost-items"],
       }),
       getAllLostReport: build.query({
          query: () => ({
             url: "/lost-items",
             method: apiMethod.GET,
          }),
-         providesTags: ["lost-item"],
+         providesTags: ["lost-items"],
       }),
-      getSingleLostReport: build.query<ResponseData<MySingleLostItem>, any>({
+      getSingleLostReport: build.query<
+         TRtqQueryResponse<MySingleLostItem>,
+         any
+      >({
          query: ({ lostId }) => ({
             url: `/lost-items/${lostId}`,
             method: apiMethod.GET,
@@ -71,14 +60,14 @@ const lostItemApi = baseApi.injectEndpoints({
             method: apiMethod.PUT,
             body: data,
          }),
-         invalidatesTags: ["lost-item"],
+         invalidatesTags: ["lost-items"],
       }),
       deleteLostReport: build.mutation({
          query: ({ lostId }) => ({
             url: `/lost-items/${lostId}`,
             method: apiMethod.DELETE,
          }),
-         invalidatesTags: ["lost-item"],
+         invalidatesTags: ["lost-items"],
       }),
    }),
 });
