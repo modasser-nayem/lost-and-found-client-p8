@@ -79,20 +79,15 @@ const MyFoundItemCard = ({ item }: ItemCardProps) => {
                </span>
             </div>
             <div className="mt-4 flex items-center justify-between">
-               <Link href={`/my-claim-request/${item.id}`}>
+               <Link
+                  className="w-full"
+                  href={`/my-found-reports/${item.id}`}
+               >
                   <Button
-                     className="text-xs py-1"
+                     className="text-xs py-1 w-full"
                      variant="outline"
                   >
-                     Claim Request
-                  </Button>
-               </Link>
-               <Link href={`/my-found-reports/${item.id}`}>
-                  <Button
-                     className="text-xs py-1"
-                     variant="outline"
-                  >
-                     View
+                     View Details
                   </Button>
                </Link>
             </div>

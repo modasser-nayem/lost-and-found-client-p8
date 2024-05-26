@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
    FaCalendarAlt,
    FaMapMarkerAlt,
@@ -12,13 +12,53 @@ import moment from "moment";
 import { TFoundItem } from "@/types/foundItem";
 import Image from "next/image";
 import tempProfileURL from "@/assets/profile.png";
+import ClaimModal from "../ClaimModal/ClaimModal";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
+import { isReduxRTQError } from "@/redux/api/baseApi";
+import { useReportFoundItemMutation } from "@/redux/api/foundItemApi";
+import { useSendClaimRequestMutation } from "@/redux/api/claimApi";
 
 type ItemCardProps = {
    item: TFoundItem;
 };
 
 const FoundItemCard = ({ item }: ItemCardProps) => {
-   console.log(item);
+   const [isModalOpen, setModalOpen] = useState(false);
+
+   const openModal = () => setModalOpen(true);
+   const closeModal = () => setModalOpen(false);
+
+   const [errors, setErrors] = useState([]);
+   const [imgValues, setImgValues] = useState<string[]>([]);
+
+   const [sendClaimRequest, { data, error }] = useSendClaimRequestMutation();
+
+   const onSubmit: SubmitHandler<FieldValues> = async (formData) => {
+      try {
+         formData = { ...formData, images: imgValues, itemId: item.id };
+
+         sendClaimRequest(formData);
+      } catch (error: any) {
+         console.log(error);
+         toast.error("An error occurred during report found item.");
+      }
+   };
+
+   useEffect(() => {
+      if (data) {
+         toast.success(data.message);
+         setModalOpen(false);
+      }
+      if (isReduxRTQError(error)) {
+         if (error?.data?.errorDetails) {
+            setErrors(error.data.errorDetails);
+         } else {
+            toast.error(error.data.message);
+         }
+      }
+   }, [data, error]);
+
    return (
       <div className="bg-white border-4 border-primary shadow-xl hover:shadow-2xl rounded-lg p-6 mb-4">
          <div className="flex flex-col justify-between h-full">
@@ -73,14 +113,14 @@ const FoundItemCard = ({ item }: ItemCardProps) => {
                      height={45}
                   />
                </Link>
-               <Link href={`/claim-found-item/${item.id}`}>
-                  <Button
-                     className="text-xs py-1"
-                     variant="outline"
-                  >
-                     Claim
-                  </Button>
-               </Link>
+               <Button
+                  onClick={openModal}
+                  className="text-xs py-1"
+                  variant="outline"
+               >
+                  Claim
+               </Button>
+
                <Link href={`/all-found-report/${item.id}`}>
                   <Button
                      className="text-xs py-1"
@@ -89,6 +129,15 @@ const FoundItemCard = ({ item }: ItemCardProps) => {
                      View
                   </Button>
                </Link>
+               <ClaimModal
+                  isOpen={isModalOpen}
+                  onClose={closeModal}
+                  onSubmit={onSubmit}
+                  errors={errors}
+                  imgValues={imgValues}
+                  setImgValues={setImgValues}
+                  item={{ id: item.id, title: item.title }}
+               />
             </div>
          </div>
       </div>

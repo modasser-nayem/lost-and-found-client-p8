@@ -1,23 +1,22 @@
 "use client";
 
-import { useGetSingleFoundReportQuery } from "@/redux/api/foundItemApi";
+import { useGetMySingleFoundReportQuery } from "@/redux/api/foundItemApi";
 import moment from "moment";
 import { useParams } from "next/navigation";
+import React from "react";
 import {
    FaCalendarAlt,
    FaMapMarkerAlt,
    FaTag,
    FaBuilding,
-   FaPhone,
+   FaHandshake,
 } from "react-icons/fa";
-import { IoIosPerson } from "react-icons/io";
 import { IoNotifications, IoTime } from "react-icons/io5";
-import { MdEmail } from "react-icons/md";
 
-const SingleFoundReportPage = () => {
+const MySingleFoundReportPage = () => {
    const params = useParams();
 
-   const { data } = useGetSingleFoundReportQuery({ id: params.id });
+   const { data } = useGetMySingleFoundReportQuery({ id: params.id });
 
    const item = data?.data;
 
@@ -42,14 +41,24 @@ const SingleFoundReportPage = () => {
                   </div>
                   <div className="flex items-center mb-1">
                      <FaCalendarAlt className="mr-2" />
-                     <span>
-                        Found Date:{" "}
-                        {moment(item.foundDate).format("DD-MM-YYYY")}
-                     </span>
+                     <span>Found Date: {item.foundDate}</span>
                   </div>
                   <div className="flex items-center mb-1">
                      <FaMapMarkerAlt className="mr-2" />
                      <span>Found Location: {item.foundLocation}</span>
+                  </div>
+                  <div className="flex items-center mb-1">
+                     <FaHandshake className="mr-2" />
+                     <span className="font-medium mr-1">Give To Owner: </span>
+                     <span
+                        className={`inline-block py-1 px-2 text-sm font-semibold rounded ${
+                           item.giveToOwner === true
+                              ? "bg-green-200 text-green-800"
+                              : "bg-red-200 text-red-800"
+                        }`}
+                     >
+                        {item.giveToOwner === true ? "success" : "pending"}
+                     </span>
                   </div>
 
                   <div className="flex items-center mb-1">
@@ -68,22 +77,18 @@ const SingleFoundReportPage = () => {
                      </span>
                   </span>
                </div>
-               <div className="mt-5">
-                  <h4 className="text-xl font-medium">Contact Information</h4>
-                  <div className="text-sm text-gray-600 mb-4">
-                     <div className="flex items-center mb-1">
-                        <IoIosPerson className="mr-2" />
-                        <span>Name: {item?.username || ""}</span>
-                     </div>
-                     <div className="flex items-center mb-1">
-                        <MdEmail className="mr-2" />
-                        <span>Email: {item.email}</span>
-                     </div>
-                     <div className="flex items-center mb-1">
-                        <FaPhone className="mr-2" />
-                        <span>Phone: {item?.phone || ""}</span>
-                     </div>
-                  </div>
+               <div className="flex items-center mb-1">
+                  <FaHandshake className="mr-2" />
+                  <span className="font-medium mr-1">Give To Owner: </span>
+                  <span
+                     className={`inline-block py-1 px-2 text-sm font-semibold rounded ${
+                        item.giveToOwner === true
+                           ? "bg-green-200 text-green-800"
+                           : "bg-red-200 text-red-800"
+                     }`}
+                  >
+                     {item.giveToOwner === true ? "success" : "pending"}
+                  </span>
                </div>
             </div>
          )}
@@ -91,4 +96,4 @@ const SingleFoundReportPage = () => {
    );
 };
 
-export default SingleFoundReportPage;
+export default MySingleFoundReportPage;

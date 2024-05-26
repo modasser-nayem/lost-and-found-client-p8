@@ -56,14 +56,14 @@ const MyProfilePage = () => {
                         </span>
                      </div>
                      <div className="font-semibold bg-gray-300 px-5 py-3 rounded-lg">
-                        <span>Total Lost Item</span>
+                        <span>Total Found Item</span>
                         <span className="ml-2">
                            {" "}
                            {myProfile._count.foundItems}
                         </span>
                      </div>
                      <div className="font-semibold bg-gray-300 px-5 py-3 rounded-lg">
-                        <span>Total Lost Item</span>
+                        <span>Total Claim Item</span>
                         <span className="ml-2">
                            {" "}
                            {myProfile._count.claimItems}
@@ -139,7 +139,7 @@ const MyProfilePage = () => {
                </Link>
             </div>
          </div>
-         <div className="pt-8 pb-10">
+         {/* <div className="pt-8 pb-10">
             <h2 className="text-2xl text-center font-semibold border-primary px-6 py-1">
                <span className="border-b-4 border-primary p-2">
                   My Claim Items
@@ -160,7 +160,7 @@ const MyProfilePage = () => {
                   <Button>View All</Button>
                </Link>
             </div>
-         </div>
+         </div> */}
       </div>
    );
 };
