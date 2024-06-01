@@ -1,21 +1,13 @@
 "use client";
 
+import { TLostItem } from "@/types/lostItem";
 import moment from "moment";
+import Link from "next/link";
 import { ChangeEvent, useState } from "react";
-
-type item = {
-   id: string;
-   title: string;
-   lostDate: string;
-   lostLocation: string;
-   isFound: boolean;
-   category: string;
-   brand: string;
-   createdAt: string;
-};
+import Button from "../../Button";
 
 type LostRequestTableProps = {
-   items: item[];
+   items: TLostItem[];
 };
 
 const LostRequestTable = ({ items }: LostRequestTableProps) => {
@@ -68,7 +60,7 @@ const LostRequestTable = ({ items }: LostRequestTableProps) => {
 
    return (
       <div className="container mx-auto p-4">
-         <div className="flex flex-wrap justify-between mb-4">
+         {/* <div className="flex flex-wrap justify-between mb-4">
             <input
                type="text"
                placeholder="Search by title"
@@ -102,16 +94,17 @@ const LostRequestTable = ({ items }: LostRequestTableProps) => {
                   className="p-2 border border-gray-300 rounded"
                />
             </div>
-         </div>
+         </div> */}
 
          <table className="min-w-full">
             <thead>
-               <tr className="bg-gray-400">
+               <tr className="bg-primary text-white">
                   <th className="py-3 px-4">Serial</th>
                   <th className="py-3 px-4">Title</th>
                   <th className="py-3 px-4">Lost Date</th>
                   <th className="py-3 px-4">Lost Location</th>
                   <th className="py-3 px-4">Status</th>
+                  <th className="py-3 px-4">Post At</th>
                   <th className="py-3 px-4">Action</th>
                </tr>
             </thead>
@@ -134,20 +127,36 @@ const LostRequestTable = ({ items }: LostRequestTableProps) => {
                         {item.lostLocation}
                      </td>
                      <td className="py-4 text-center px-4 border-b">
-                        {item.isFound ? "Found" : "Lost"}
+                        {true ? "Found" : "Lost"}
+                     </td>
+                     <td className="py-4 text-center px-4 border-b">
+                        {moment(item.createdAt)
+                           .startOf("millisecond")
+                           .fromNow()}
                      </td>
                      <td className="py-4 px-4 border-b text-center">
-                        <a
-                           href={`/view/${item.id}`}
-                           className="text-blue-500 hover:underline"
-                        >
-                           View
-                        </a>
+                        <Link href={`/all-found-report/${item.id}`}>
+                           <Button
+                              className="text-xs py-1"
+                              variant="outline"
+                           >
+                              View
+                           </Button>
+                        </Link>
                      </td>
                   </tr>
                ))}
             </tbody>
          </table>
+
+         {/* // id: string;
+//    title: string;
+//    description: string;
+//    category: string;
+//    brand: string;
+//    lostDate: string;
+//    lostLocation: string;
+//    createdAt: string; */}
 
          <div className="flex justify-center mt-4">
             <nav>
@@ -160,8 +169,8 @@ const LostRequestTable = ({ items }: LostRequestTableProps) => {
                               onClick={() => paginate(i + 1)}
                               className={`px-4 py-2 border rounded ${
                                  currentPage === i + 1
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-white text-blue-500"
+                                    ? "bg-primary text-white"
+                                    : "bg-white text-primary"
                               }`}
                            >
                               {i + 1}

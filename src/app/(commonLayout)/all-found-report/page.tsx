@@ -14,7 +14,7 @@ const AllFoundReportsPage = () => {
                All Found Reports
             </span>
          </h2>
-         <div className="mt-16 grid grid-cols-4 gap-10">
+         <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
             {data?.data &&
                data.data.map((item) => (
                   <FoundItemCard

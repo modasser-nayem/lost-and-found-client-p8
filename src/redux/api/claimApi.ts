@@ -1,5 +1,11 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
+import { TRtqQueryResponse } from "@/types/redux";
+import {
+   TClaimRequest,
+   TMyClaimItem,
+   TSingleClaimRequest,
+} from "@/types/claim";
 
 const claimApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
@@ -11,10 +17,28 @@ const claimApi = baseApi.injectEndpoints({
          }),
          invalidatesTags: ["claim-items", "found-items"],
       }),
-      getClaimRequestByFoundId: build.query({
-         query: ({ id }) => ({
+      getSingleClaimRequest: build.query<
+         TRtqQueryResponse<TSingleClaimRequest>,
+         any
+      >({
+         query: ({ id }: { id: string }) => ({
+            url: `/claims/${id}`,
+            method: apiMethod.GET,
+         }),
+      }),
+      getClaimRequestByFoundId: build.query<
+         TRtqQueryResponse<TClaimRequest[]>,
+         any
+      >({
+         query: ({ id }: { id: string }) => ({
             url: `/claims/found/${id}`,
-            method: apiMethod.POST,
+            method: apiMethod.GET,
+         }),
+      }),
+      getMyClaimItems: build.query<TRtqQueryResponse<TMyClaimItem[]>, any>({
+         query: () => ({
+            url: `/claims/my`,
+            method: apiMethod.GET,
          }),
       }),
       updateClaimRequestStatus: build.mutation({
@@ -25,11 +49,21 @@ const claimApi = baseApi.injectEndpoints({
          }),
          invalidatesTags: ["claim-items", "found-items"],
       }),
+      deleteClaimRequest: build.mutation({
+         query: ({ id }: { id: string }) => ({
+            url: `/claims/${id}`,
+            method: apiMethod.DELETE,
+         }),
+         invalidatesTags: ["claim-items", "found-items"],
+      }),
    }),
 });
 
 export const {
    useSendClaimRequestMutation,
+   useGetSingleClaimRequestQuery,
    useGetClaimRequestByFoundIdQuery,
+   useGetMyClaimItemsQuery,
    useUpdateClaimRequestStatusMutation,
+   useDeleteClaimRequestMutation,
 } = claimApi;

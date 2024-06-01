@@ -1,25 +1,7 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
 import { TRtqQueryResponse } from "@/types/redux";
-import { TMyLostItem } from "@/types/lostItem";
-
-type MySingleLostItem = {
-   id: string;
-   title: string;
-   description: string;
-   category: string;
-   brand: string;
-   images: string[];
-   lostDate: string;
-   lostLocation: string;
-   foundAt: string;
-   isFound: string;
-   username: string;
-   email: string;
-   phone: string;
-   createdAt: string;
-   updatedAt: string;
-};
+import { TLostItem, TMyLostItem, TSingleLostItem } from "@/types/lostItem";
 
 const lostItemApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
@@ -38,34 +20,40 @@ const lostItemApi = baseApi.injectEndpoints({
          }),
          providesTags: ["lost-items"],
       }),
-      getAllLostReport: build.query({
+      getAllLostReport: build.query<TRtqQueryResponse<TLostItem[]>, any>({
          query: () => ({
             url: "/lost-items",
             method: apiMethod.GET,
          }),
          providesTags: ["lost-items"],
       }),
-      getSingleLostReport: build.query<
-         TRtqQueryResponse<MySingleLostItem>,
-         any
-      >({
-         query: ({ lostId }) => ({
-            url: `/lost-items/${lostId}`,
-            method: apiMethod.GET,
-         }),
-      }),
+      getSingleLostReport: build.query<TRtqQueryResponse<TSingleLostItem>, any>(
+         {
+            query: ({ id }: { id: string }) => ({
+               url: `/lost-items/${id}`,
+               method: apiMethod.GET,
+            }),
+         }
+      ),
       updateLostReport: build.mutation({
-         query: ({ data, lostId }) => ({
-            url: `/lost-items/${lostId}`,
+         query: ({ data, id }) => ({
+            url: `/lost-items/${id}`,
             method: apiMethod.PUT,
             body: data,
          }),
          invalidatesTags: ["lost-items"],
       }),
       deleteLostReport: build.mutation({
-         query: ({ lostId }) => ({
-            url: `/lost-items/${lostId}`,
+         query: ({ id }: { id: string }) => ({
+            url: `/lost-items/${id}`,
             method: apiMethod.DELETE,
+         }),
+         invalidatesTags: ["lost-items"],
+      }),
+      markAsFoundLostItem: build.mutation({
+         query: ({ id }: { id: string }) => ({
+            url: `/lost-items/${id}`,
+            method: apiMethod.PATCH,
          }),
          invalidatesTags: ["lost-items"],
       }),
@@ -78,5 +66,6 @@ export const {
    useGetAllLostReportQuery,
    useGetSingleLostReportQuery,
    useUpdateLostReportMutation,
+   useMarkAsFoundLostItemMutation,
    useDeleteLostReportMutation,
 } = lostItemApi;

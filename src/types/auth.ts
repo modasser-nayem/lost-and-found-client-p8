@@ -9,3 +9,9 @@ export type TLoginUser = {
    emailOrUsername: string;
    password: string;
 };
+
+export type TChangePassword = {
+   currentPassword: string;
+   newPassword: string;
+   confirmPassword: string;
+};

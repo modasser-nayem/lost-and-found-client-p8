@@ -14,20 +14,16 @@ const DashboardSidebar = () => {
          name: "Dashboard",
       },
       {
-         path: "/dashboard/all-lost-request",
-         name: "All Lost Request",
+         path: "/dashboard/all-lost-report",
+         name: "All Lost Report",
       },
       {
-         path: "/dashboard/all-found-request",
-         name: "All Found Request",
+         path: "/dashboard/all-found-report",
+         name: "All Found Report",
       },
       {
          path: "/dashboard/all-claim-item",
          name: "All Claim Item",
-      },
-      {
-         path: "/dashboard/change-password",
-         name: "Change Password",
       },
    ];
 

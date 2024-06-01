@@ -1,6 +1,6 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
-import { TLoginUser, TRegisterUser } from "@/types/auth";
+import { TChangePassword, TLoginUser, TRegisterUser } from "@/types/auth";
 
 const authApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
@@ -19,7 +19,18 @@ const authApi = baseApi.injectEndpoints({
             body: data,
          }),
       }),
+      changePassword: build.mutation({
+         query: (data: Partial<TChangePassword>) => ({
+            url: "/auth/change-password",
+            method: apiMethod.POST,
+            body: data,
+         }),
+      }),
    }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation } = authApi;
+export const {
+   useRegisterUserMutation,
+   useLoginUserMutation,
+   useChangePasswordMutation,
+} = authApi;

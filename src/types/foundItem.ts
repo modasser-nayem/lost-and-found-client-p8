@@ -28,21 +28,6 @@ export type TMySingleFoundItem = {
    _count: {
       claimItems: true;
    };
-   claimItems: {
-      id: string;
-      description: string;
-      productInvoice: string;
-      status: "pending" | "rejected" | "approved";
-      statusUpdateAt: null | string;
-      createdAt: string;
-      user: {
-         id: string;
-         name: string;
-         email: string;
-         photoURL: null | string;
-         phone: null | string;
-      };
-   }[];
 };
 
 export type TFoundItem = {

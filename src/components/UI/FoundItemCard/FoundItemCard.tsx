@@ -16,7 +16,6 @@ import ClaimModal from "../ClaimModal/ClaimModal";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { isReduxRTQError } from "@/redux/api/baseApi";
-import { useReportFoundItemMutation } from "@/redux/api/foundItemApi";
 import { useSendClaimRequestMutation } from "@/redux/api/claimApi";
 
 type ItemCardProps = {
@@ -104,7 +103,7 @@ const FoundItemCard = ({ item }: ItemCardProps) => {
             <div className="mt-4 flex items-center justify-between">
                <Link
                   title={item?.user?.name}
-                  href={`/my-claim-request/${item.user.id}`}
+                  href={`#`}
                >
                   <Image
                      src={item?.user?.photoURL || tempProfileURL}

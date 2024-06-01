@@ -40,7 +40,7 @@ const Navbar = () => {
       },
    ];
 
-   if (user?.role) {
+   if (user?.role === "user") {
       navLinks.push({
          path: "/my-profile",
          name: "My Profile",
@@ -49,13 +49,17 @@ const Navbar = () => {
 
    if (user?.role === "admin") {
       navLinks.push({
+         path: "/my-profile",
+         name: "My Profile",
+      });
+      navLinks.push({
          path: "/dashboard",
          name: "Dashboard",
       });
    }
 
    return (
-      <div className="container mx-auto flex items-center justify-between py-5">
+      <div className="container mx-auto flex items-center justify-between gap-5 py-5">
          <div className="flex items-center gap-3">
             <Image
                src={logo}
@@ -63,7 +67,9 @@ const Navbar = () => {
                width={50}
                height={50}
             />
-            <h2 className="text-3xl font-semibold">Lost & Found</h2>
+            <h2 className="text-3xl font-semibold hidden lg:block">
+               Lost & Found
+            </h2>
          </div>
          <div>
             <ul className="flex items-center justify-center gap-10">

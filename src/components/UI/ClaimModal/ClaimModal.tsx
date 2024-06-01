@@ -59,7 +59,7 @@ const ClaimModal = ({
                         label="Image URL"
                         values={imgValues}
                         onChange={setImgValues}
-                        placeholder="Add a img url and press Enter"
+                        placeholder="Add a img url and press Tab"
                      />
                   </div>
                </div>

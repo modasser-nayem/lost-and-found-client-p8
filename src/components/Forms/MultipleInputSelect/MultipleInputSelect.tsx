@@ -19,7 +19,7 @@ const MultipleInputSelect: React.FC<MultipleInputSelectProps> = ({
    const [inputValue, setInputValue] = useState("");
 
    const handleAddValue = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter" && inputValue.trim()) {
+      if (e.key === "Tab" && inputValue.trim()) {
          onChange([...values, inputValue.trim()]);
          setInputValue("");
       }
@@ -58,7 +58,7 @@ const MultipleInputSelect: React.FC<MultipleInputSelectProps> = ({
                onChange={(e) => setInputValue(e.target.value)}
                onKeyDown={handleAddValue}
                className="flex-grow p-2 border-none focus:outline-none"
-               placeholder={placeholder}
+               placeholder={placeholder || "Add a img url and press tab"}
             />
          </div>
       </div>
