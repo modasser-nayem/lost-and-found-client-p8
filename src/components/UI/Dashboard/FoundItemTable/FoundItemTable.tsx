@@ -1,28 +1,16 @@
 "use client";
 
+import moment from "moment";
+import Link from "next/link";
 import { ChangeEvent, useState } from "react";
+import Button from "../../Button";
+import { TFoundItem } from "@/types/foundItem";
 
-const Table = () => {
-   const items = [
-      {
-         id: 1,
-         title: "Lost Wallet",
-         lostDate: "2023-05-01",
-         lostLocation: "Park",
-         status: "Lost",
-         category: "wallet",
-      },
-      {
-         id: 2,
-         title: "Found Phone",
-         lostDate: "2023-04-20",
-         lostLocation: "Mall",
-         status: "Found",
-         category: "phone",
-      },
-      // Add more items as needed
-   ];
+type FoundItemTableProps = {
+   items: TFoundItem[];
+};
 
+const FoundItemTable = ({ items }: FoundItemTableProps) => {
    const [currentPage, setCurrentPage] = useState<number>(1);
    const [itemsPerPage] = useState<number>(10);
    const [searchTerm, setSearchTerm] = useState<string>("");
@@ -55,10 +43,10 @@ const Table = () => {
       const matchesCategory = category ? item.category === category : true;
       const matchesDateRange =
          (dateRange.start
-            ? new Date(item.lostDate) >= new Date(dateRange.start)
+            ? new Date(item.foundDate) >= new Date(dateRange.start)
             : true) &&
          (dateRange.end
-            ? new Date(item.lostDate) <= new Date(dateRange.end)
+            ? new Date(item.foundDate) <= new Date(dateRange.end)
             : true);
       return matchesSearch && matchesCategory && matchesDateRange;
    });
@@ -72,7 +60,7 @@ const Table = () => {
 
    return (
       <div className="container mx-auto p-4">
-         <div className="flex flex-wrap justify-between mb-4">
+         {/* <div className="flex flex-wrap justify-between mb-4">
             <input
                type="text"
                placeholder="Search by title"
@@ -106,36 +94,59 @@ const Table = () => {
                   className="p-2 border border-gray-300 rounded"
                />
             </div>
-         </div>
+         </div> */}
 
-         <table className="min-w-full bg-white border border-gray-300">
+         <table className="min-w-full">
             <thead>
-               <tr>
-                  <th className="py-2 px-4 border-b">Serial</th>
-                  <th className="py-2 px-4 border-b">Title</th>
-                  <th className="py-2 px-4 border-b">Lost Date</th>
-                  <th className="py-2 px-4 border-b">Lost Location</th>
-                  <th className="py-2 px-4 border-b">Status</th>
-                  <th className="py-2 px-4 border-b">Action</th>
+               <tr className="bg-primary text-white">
+                  <th className="py-3 px-4">Serial</th>
+                  <th className="py-3 px-4">Title</th>
+                  <th className="py-3 px-4">Category</th>
+                  <th className="py-3 px-4">Found Date</th>
+                  <th className="py-3 px-4">Found Location</th>
+                  <th className="py-3 px-4">Claim Request</th>
+                  <th className="py-3 px-4">Post At</th>
+                  <th className="py-3 px-4">Action</th>
                </tr>
             </thead>
             <tbody>
                {currentItems.map((item, index) => (
-                  <tr key={item.id}>
-                     <td className="py-2 px-4 border-b text-center">
+                  <tr
+                     className=""
+                     key={item.id}
+                  >
+                     <td className="py-4 text-center px-4 border-b">
                         {indexOfFirstItem + index + 1}
                      </td>
-                     <td className="py-2 px-4 border-b">{item.title}</td>
-                     <td className="py-2 px-4 border-b">{item.lostDate}</td>
-                     <td className="py-2 px-4 border-b">{item.lostLocation}</td>
-                     <td className="py-2 px-4 border-b">{item.status}</td>
-                     <td className="py-2 px-4 border-b text-center">
-                        <a
-                           href={`/view/${item.id}`}
-                           className="text-blue-500 hover:underline"
-                        >
-                           View
-                        </a>
+                     <td className="py-4 text-center px-4 border-b">
+                        {item.title}
+                     </td>
+                     <td className="py-4 text-center px-4 border-b">
+                        {item.category}
+                     </td>
+                     <td className="py-4 text-center px-4 border-b">
+                        {moment(item.foundDate).format("DD-MM-YYYY")}
+                     </td>
+                     <td className="py-4 text-center px-4 border-b">
+                        {item.foundLocation}
+                     </td>
+                     <td className="py-4 text-center px-4 border-b">
+                        {item._count.claimItems}
+                     </td>
+                     <td className="py-4 text-center px-4 border-b">
+                        {moment(item.createdAt)
+                           .startOf("millisecond")
+                           .fromNow()}
+                     </td>
+                     <td className="py-4 px-4 border-b text-center">
+                        <Link href={`/all-found-report/${item.id}`}>
+                           <Button
+                              className="text-xs py-1"
+                              variant="outline"
+                           >
+                              View
+                           </Button>
+                        </Link>
                      </td>
                   </tr>
                ))}
@@ -153,8 +164,8 @@ const Table = () => {
                               onClick={() => paginate(i + 1)}
                               className={`px-4 py-2 border rounded ${
                                  currentPage === i + 1
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-white text-blue-500"
+                                    ? "bg-primary text-white"
+                                    : "bg-white text-primary"
                               }`}
                            >
                               {i + 1}
@@ -169,4 +180,4 @@ const Table = () => {
    );
 };
 
-export default Table;
+export default FoundItemTable;

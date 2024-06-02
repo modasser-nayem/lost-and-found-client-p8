@@ -1,3 +1,4 @@
+import { TMyClaimItem } from "./claim";
 import { TMyFoundItem } from "./foundItem";
 import { TMyLostItem } from "./lostItem";
 
@@ -20,18 +21,20 @@ export type TMyProfile = {
    };
    lostItems: TMyLostItem[];
    foundItems: TMyFoundItem[];
-   claimItems: TClaimItem[];
+   claimItems: TMyClaimItem[];
 };
 
-type TClaimItem = {
+export type TUserRole = "user" | "admin";
+export type TUserStatus = "activate" | "deactivate";
+
+export type TUser = {
    id: string;
+   name: string;
+   username: string;
+   email: string;
+   role: TUserRole;
+   phone: null | string;
+   photoURL: null | string;
    createdAt: string;
-   status: "pending" | "approved" | "rejected";
-   statusUpdateAt: boolean;
-   item: {
-      id: string;
-      title: string;
-      foundDate: string;
-      foundLocation: string;
-   };
+   status: TUserStatus;
 };

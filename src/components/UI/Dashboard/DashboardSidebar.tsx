@@ -10,6 +10,10 @@ const DashboardSidebar = () => {
 
    let navLinks = [
       {
+         path: "/",
+         name: "Home",
+      },
+      {
          path: "/dashboard",
          name: "Dashboard",
       },
@@ -22,8 +26,12 @@ const DashboardSidebar = () => {
          name: "All Found Report",
       },
       {
-         path: "/dashboard/all-claim-item",
-         name: "All Claim Item",
+         path: "/dashboard/users",
+         name: "Users",
+      },
+      {
+         path: "/my-profile",
+         name: "Profile",
       },
    ];
 

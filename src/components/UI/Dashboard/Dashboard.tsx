@@ -9,7 +9,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
          <div className=" bg-gray-100 h-screen p-5">
             <DashboardSidebar />
          </div>
-         <div className="border-2 border-gray-500 flex-1">
+         <div className="flex-1">
             <DashboardHeader />
             <div className="p-5">{children}</div>
          </div>

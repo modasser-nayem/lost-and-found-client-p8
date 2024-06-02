@@ -35,7 +35,7 @@ const SingleFoundReportPage = () => {
                   </p>
                   {item.images && (
                      <div className="flex flex-wrap gap-5">
-                        {item.images.map((imgUrl, i) => (
+                        {item.images.map((imgUrl: string, i) => (
                            <Image
                               key={i}
                               src={imgUrl}

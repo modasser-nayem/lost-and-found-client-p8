@@ -6,11 +6,11 @@ import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import Button from "../../Button";
 
-type LostRequestTableProps = {
+type LostItemTableProps = {
    items: TLostItem[];
 };
 
-const LostRequestTable = ({ items }: LostRequestTableProps) => {
+const LostItemTable = ({ items }: LostItemTableProps) => {
    const [currentPage, setCurrentPage] = useState<number>(1);
    const [itemsPerPage] = useState<number>(10);
    const [searchTerm, setSearchTerm] = useState<string>("");
@@ -103,7 +103,7 @@ const LostRequestTable = ({ items }: LostRequestTableProps) => {
                   <th className="py-3 px-4">Title</th>
                   <th className="py-3 px-4">Lost Date</th>
                   <th className="py-3 px-4">Lost Location</th>
-                  <th className="py-3 px-4">Status</th>
+                  {/* <th className="py-3 px-4">Status</th> */}
                   <th className="py-3 px-4">Post At</th>
                   <th className="py-3 px-4">Action</th>
                </tr>
@@ -126,16 +126,16 @@ const LostRequestTable = ({ items }: LostRequestTableProps) => {
                      <td className="py-4 text-center px-4 border-b">
                         {item.lostLocation}
                      </td>
-                     <td className="py-4 text-center px-4 border-b">
+                     {/* <td className="py-4 text-center px-4 border-b">
                         {true ? "Found" : "Lost"}
-                     </td>
+                     </td> */}
                      <td className="py-4 text-center px-4 border-b">
                         {moment(item.createdAt)
                            .startOf("millisecond")
                            .fromNow()}
                      </td>
                      <td className="py-4 px-4 border-b text-center">
-                        <Link href={`/all-found-report/${item.id}`}>
+                        <Link href={`/all-lost-report/${item.id}`}>
                            <Button
                               className="text-xs py-1"
                               variant="outline"
@@ -185,4 +185,4 @@ const LostRequestTable = ({ items }: LostRequestTableProps) => {
    );
 };
 
-export default LostRequestTable;
+export default LostItemTable;
