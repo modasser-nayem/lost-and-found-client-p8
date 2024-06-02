@@ -48,12 +48,14 @@ const MyLostItemCard = ({ item }: ItemCardProps) => {
             <h2 className="text-xl font-bold text-gray-900 mb-2">
                {item.title.slice(0, 70)}
             </h2>
-            <Link
-               className="absolute right-0 top-0 backdrop-blur-md"
-               href={`/update-lost-report/${item.id}`}
-            >
-               <FaEdit size={25} />
-            </Link>
+            {!item.isFound && (
+               <Link
+                  className="absolute right-0 top-0 backdrop-blur-md"
+                  href={`/my-lost-reports/${item.id}/update-lost-report`}
+               >
+                  <FaEdit size={25} />
+               </Link>
+            )}
             <div className="text-sm text-gray-600 mb-4">
                <div className="flex items-center mb-1">
                   <FaTag className="mr-2" />

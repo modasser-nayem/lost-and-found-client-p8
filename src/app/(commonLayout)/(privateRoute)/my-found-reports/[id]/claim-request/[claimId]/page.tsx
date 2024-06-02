@@ -165,6 +165,18 @@ const ClaimRequestDetailsPage = () => {
                               >
                                  Rejected
                               </Button>
+                              <Button
+                                 onClick={() =>
+                                    handleUpdateStatus({
+                                       id: claimItem.id,
+                                       status: "pending",
+                                    })
+                                 }
+                                 className="text-xs py-1"
+                                 variant="outline"
+                              >
+                                 Pending
+                              </Button>
                            </div>
                         </div>
                      </div>

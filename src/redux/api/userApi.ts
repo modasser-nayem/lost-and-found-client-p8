@@ -1,7 +1,14 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
-import { TRtqQueryResponse } from "@/types/redux";
-import { TMyProfile, TUser, TUserRole, TUserStatus } from "@/types/user";
+import { TQueryParams, TRtqQueryResponse } from "@/types/redux";
+import {
+   TMyProfile,
+   TUpdateProfile,
+   TUser,
+   TUserRole,
+   TUserStatus,
+} from "@/types/user";
+import { makeQueryParams } from "@/utils/reduxApi";
 
 const userApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
@@ -10,13 +17,24 @@ const userApi = baseApi.injectEndpoints({
             url: "/users/me",
             method: apiMethod.GET,
          }),
-         providesTags: ["users"],
+      }),
+      updateProfile: build.mutation({
+         query: (data: TUpdateProfile) => ({
+            url: "/users/me",
+            method: apiMethod.PUT,
+            body: data,
+         }),
+         invalidatesTags: ["users"],
       }),
       getAllUsers: build.query<TRtqQueryResponse<TUser[]>, any>({
-         query: () => ({
-            url: "/users",
-            method: apiMethod.GET,
-         }),
+         query: (args: { query?: TQueryParams[] }) => {
+            const params = makeQueryParams(args?.query);
+            return {
+               url: "/users",
+               method: apiMethod.GET,
+               params: params,
+            };
+         },
          providesTags: ["users"],
       }),
       getSingleUser: build.query<TRtqQueryResponse<TUser>, any>({
@@ -46,6 +64,7 @@ const userApi = baseApi.injectEndpoints({
 
 export const {
    useGetMyProfileQuery,
+   useUpdateProfileMutation,
    useGetAllUsersQuery,
    useGetSingleUserQuery,
    useUpdateUserStatusMutation,

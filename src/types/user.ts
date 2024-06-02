@@ -1,7 +1,3 @@
-import { TMyClaimItem } from "./claim";
-import { TMyFoundItem } from "./foundItem";
-import { TMyLostItem } from "./lostItem";
-
 export type TMyProfile = {
    id: string;
    name: string;
@@ -19,9 +15,6 @@ export type TMyProfile = {
       foundItems: number;
       claimItems: number;
    };
-   lostItems: TMyLostItem[];
-   foundItems: TMyFoundItem[];
-   claimItems: TMyClaimItem[];
 };
 
 export type TUserRole = "user" | "admin";
@@ -37,4 +30,12 @@ export type TUser = {
    photoURL: null | string;
    createdAt: string;
    status: TUserStatus;
+};
+
+export type TUpdateProfile = {
+   name?: string;
+   username?: string;
+   email?: string;
+   photoURL?: string | null;
+   phone?: string | null;
 };

@@ -50,3 +50,9 @@ export type TMyClaimItem = {
       foundLocation: string;
    };
 };
+
+export type TUpdateClaimRequest = {
+   description?: string;
+   productInvoice?: string;
+   images?: string[];
+};

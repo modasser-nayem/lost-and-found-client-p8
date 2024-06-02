@@ -7,7 +7,6 @@ type InputItemProps = {
    type: TInputType;
    label: string;
    name: string;
-   value?: any;
    onChange?: ChangeEvent<HTMLInputElement>;
    placeholder?: string;
    className?: string;
@@ -19,7 +18,6 @@ const InputItem = ({
    type,
    label,
    name,
-   value,
    placeholder,
    className,
    readonly,
@@ -45,7 +43,6 @@ const InputItem = ({
                         error?.message ? "border-red-700" : "border-gray-500"
                      } focus:border-primary outline-none rounded-md`}
                      type={type}
-                     value={value}
                      placeholder={placeholder}
                      readOnly={readonly}
                   />

@@ -65,3 +65,16 @@ export type TSingleFoundReport = {
       claimItems: number;
    };
 };
+
+export type TUpdateFoundReport = {
+   title?: string;
+   description?: string;
+   category?: string;
+   brand?: string;
+   foundDate?: string;
+   foundLocation?: string;
+   images?: string[];
+   username?: string;
+   email?: string;
+   phone?: string;
+};

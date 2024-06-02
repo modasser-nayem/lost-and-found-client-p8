@@ -13,3 +13,10 @@ export type TInputType =
    | "month"
    | "week"
    | "color";
+
+export type TPagination = {
+   page?: number;
+   limit?: number;
+   sortBy?: string;
+   sortOrder?: "asc" | "desc";
+};

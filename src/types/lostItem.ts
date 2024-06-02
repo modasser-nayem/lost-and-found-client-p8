@@ -39,3 +39,16 @@ export type TLostItem = {
    lostLocation: string;
    createdAt: string;
 };
+
+export type TUpdateLostReport = {
+   title?: string;
+   description?: string;
+   category?: string;
+   brand?: string;
+   lostDate?: string;
+   lostLocation?: string;
+   images?: string[];
+   username?: string;
+   email?: string;
+   phone?: string;
+};

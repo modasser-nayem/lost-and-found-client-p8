@@ -1,7 +1,13 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
-import { TRtqQueryResponse } from "@/types/redux";
-import { TLostItem, TMyLostItem, TSingleLostItem } from "@/types/lostItem";
+import { TQueryParams, TRtqQueryResponse } from "@/types/redux";
+import {
+   TLostItem,
+   TMyLostItem,
+   TSingleLostItem,
+   TUpdateLostReport,
+} from "@/types/lostItem";
+import { makeQueryParams } from "@/utils/reduxApi";
 
 const lostItemApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
@@ -14,17 +20,25 @@ const lostItemApi = baseApi.injectEndpoints({
          invalidatesTags: ["lost-items"],
       }),
       getMyAllLostReport: build.query<TRtqQueryResponse<TMyLostItem[]>, any>({
-         query: () => ({
-            url: "/lost-items/my",
-            method: apiMethod.GET,
-         }),
+         query: (args: { query?: TQueryParams[] }) => {
+            const params = makeQueryParams(args?.query);
+            return {
+               url: "/lost-items/my",
+               method: apiMethod.GET,
+               params: params,
+            };
+         },
          providesTags: ["lost-items"],
       }),
       getAllLostReport: build.query<TRtqQueryResponse<TLostItem[]>, any>({
-         query: () => ({
-            url: "/lost-items",
-            method: apiMethod.GET,
-         }),
+         query: (args: { query?: TQueryParams[] }) => {
+            const params = makeQueryParams(args?.query);
+            return {
+               url: "/lost-items",
+               method: apiMethod.GET,
+               params: params,
+            };
+         },
          providesTags: ["lost-items"],
       }),
       getSingleLostReport: build.query<TRtqQueryResponse<TSingleLostItem>, any>(
@@ -36,7 +50,7 @@ const lostItemApi = baseApi.injectEndpoints({
          }
       ),
       updateLostReport: build.mutation({
-         query: ({ data, id }) => ({
+         query: ({ data, id }: { id: string; data: TUpdateLostReport }) => ({
             url: `/lost-items/${id}`,
             method: apiMethod.PUT,
             body: data,

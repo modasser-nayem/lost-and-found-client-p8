@@ -11,20 +11,44 @@ import Link from "next/link";
 import Button from "@/components/UI/Button";
 import { useGetMyClaimItemsQuery } from "@/redux/api/claimApi";
 import MyClaimItemCard from "@/components/UI/MyClaimItemCard/MyClaimItemCard";
+import { FaEdit } from "react-icons/fa";
+import { useGetMyAllFoundReportQuery } from "@/redux/api/foundItemApi";
+import { useGetMyAllLostReportQuery } from "@/redux/api/lostItemApi";
 
 const MyProfilePage = () => {
+   const queryArguments = {
+      query: [
+         {
+            name: "limit",
+            value: 4,
+         },
+      ],
+   };
+
    const { data } = useGetMyProfileQuery(undefined);
-   const { data: claimItems } = useGetMyClaimItemsQuery(undefined);
+   const { data: lostData } = useGetMyAllLostReportQuery(queryArguments);
+   const { data: foundData } = useGetMyAllFoundReportQuery(queryArguments);
+   const { data: claimData } = useGetMyClaimItemsQuery(queryArguments);
 
    const myProfile = data?.data;
-   const lostItems = data?.data?.lostItems;
-   const foundItems = data?.data?.foundItems;
+   const lostItems = lostData?.data;
+   const foundItems = foundData?.data;
+   const claimItems = claimData?.data;
+
+   console.log({ myProfile, lostItems, foundItems, claimItems });
 
    return (
       <div className="container">
          {myProfile && (
-            <div className="my-10 bg-gray-200 p-10 rounded-lg flex flex-wrap md:flex-nowrap justify-center md:justify-normal items-start gap-12">
-               <div>
+            <div className="my-10 bg-gray-200 p-10 rounded-lg flex flex-wrap md:flex-nowrap justify-center md:justify-normal items-start gap-12 relative">
+               <Link
+                  title="Edit Profile"
+                  className="absolute right-5 top-5 backdrop-blur-md"
+                  href={`/my-profile/update-profile/`}
+               >
+                  <FaEdit size={25} />
+               </Link>
+               <div className="min-w-[180px]">
                   <Image
                      src={myProfile.photoURL ? myProfile.photoURL : photoURL}
                      alt="user"
@@ -163,10 +187,10 @@ const MyProfilePage = () => {
                   My Claim Items
                </span>
             </h2>
-            {claimItems?.data && (
+            {claimItems && (
                <>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 my-10">
-                     {claimItems.data.map((item) => (
+                     {claimItems.map((item) => (
                         <MyClaimItemCard
                            key={item.id}
                            item={item}
@@ -174,7 +198,7 @@ const MyProfilePage = () => {
                      ))}
                   </div>
 
-                  {claimItems.data.length > 3 && (
+                  {claimItems.length > 3 && (
                      <div className="text-center">
                         <Link href="my-claim-reports">
                            <Button>View All</Button>

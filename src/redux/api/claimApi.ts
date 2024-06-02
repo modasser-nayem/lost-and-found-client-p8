@@ -1,11 +1,13 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
-import { TRtqQueryResponse } from "@/types/redux";
+import { TQueryParams, TRtqQueryResponse } from "@/types/redux";
 import {
    TClaimRequest,
    TMyClaimItem,
    TSingleClaimRequest,
+   TUpdateClaimRequest,
 } from "@/types/claim";
+import { makeQueryParams } from "@/utils/reduxApi";
 
 const claimApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
@@ -30,16 +32,24 @@ const claimApi = baseApi.injectEndpoints({
          TRtqQueryResponse<TClaimRequest[]>,
          any
       >({
-         query: ({ id }: { id: string }) => ({
-            url: `/claims/found/${id}`,
-            method: apiMethod.GET,
-         }),
+         query: (args: { id: string; query?: TQueryParams[] }) => {
+            const params = makeQueryParams(args?.query);
+            return {
+               url: `/claims/found/${args.id}`,
+               method: apiMethod.GET,
+               params: params,
+            };
+         },
       }),
       getMyClaimItems: build.query<TRtqQueryResponse<TMyClaimItem[]>, any>({
-         query: () => ({
-            url: `/claims/my`,
-            method: apiMethod.GET,
-         }),
+         query: (args: { query?: TQueryParams[] }) => {
+            const params = makeQueryParams(args?.query);
+            return {
+               url: `/claims/my`,
+               method: apiMethod.GET,
+               params: params,
+            };
+         },
       }),
       updateClaimRequestStatus: build.mutation({
          query: ({ id, status }: { id: string; status: string }) => ({
@@ -48,6 +58,14 @@ const claimApi = baseApi.injectEndpoints({
             body: { status },
          }),
          invalidatesTags: ["claim-items", "found-items"],
+      }),
+      updateClaimRequest: build.mutation({
+         query: ({ id, data }: { id: string; data: TUpdateClaimRequest }) => ({
+            url: `/claims/${id}`,
+            method: apiMethod.PUT,
+            body: data,
+         }),
+         invalidatesTags: ["claim-items"],
       }),
       deleteClaimRequest: build.mutation({
          query: ({ id }: { id: string }) => ({
@@ -65,5 +83,6 @@ export const {
    useGetClaimRequestByFoundIdQuery,
    useGetMyClaimItemsQuery,
    useUpdateClaimRequestStatusMutation,
+   useUpdateClaimRequestMutation,
    useDeleteClaimRequestMutation,
 } = claimApi;

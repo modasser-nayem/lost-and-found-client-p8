@@ -3,37 +3,55 @@
 import FormWrapper from "@/components/Forms/FormWrapper/FormWrapper";
 import InputItem from "@/components/Forms/InputItem/InputItem";
 import Button from "@/components/UI/Button";
-import { useRegisterUserMutation } from "@/redux/api/authApi";
 import { isReduxRTQError } from "@/redux/api/baseApi";
-import { useAppDispatch } from "@/redux/hook";
-import Link from "next/link";
+import {
+   useGetSingleUserQuery,
+   useUpdateProfileMutation,
+} from "@/redux/api/userApi";
+import { useAppSelector } from "@/redux/hook";
+import { TUpdateProfile } from "@/types/user";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
-const RegisterPage = () => {
+const UpdateProfilePage = () => {
    const router = useRouter();
    const [errors, setErrors] = useState([]);
-   const dispatch = useAppDispatch();
+   const userId = useAppSelector((state) => state.auth.user?.id);
 
-   const [registerUser, { data, error, isSuccess }] = useRegisterUserMutation();
+   const { data: userData, isLoading: userDataIsLoading } =
+      useGetSingleUserQuery({ id: userId });
+
+   const defaultData: TUpdateProfile = {
+      name: userData?.data?.name,
+      username: userData?.data?.username,
+      email: userData?.data?.email,
+      photoURL: userData?.data?.photoURL || undefined,
+      phone: userData?.data?.phone || undefined,
+   };
+
+   const [updateProfile, { data, error, isSuccess }] =
+      useUpdateProfileMutation();
 
    const onSubmit: SubmitHandler<FieldValues> = async (formData) => {
       try {
-         registerUser(formData);
+         updateProfile(formData);
       } catch (error: any) {
          console.log(error);
-         toast.error("An error occurred during registration.");
+         toast.error("Something went wrong! try again");
       }
    };
 
    useEffect(() => {
+      if (!userDataIsLoading) {
+         return;
+      }
+
       if (data) {
          toast.success(data.message);
-         router.push("/login");
+         router.push("/my-profile");
       }
-      console.log({ error, data });
       if (isReduxRTQError(error)) {
          if (error?.data?.errorDetails) {
             setErrors(error.data.errorDetails);
@@ -41,61 +59,66 @@ const RegisterPage = () => {
             toast.error(error.data.message);
          }
       }
-   }, [data, error, router, dispatch]);
+   }, [data, error, router, userDataIsLoading]);
+
+   if (userDataIsLoading) {
+      return (
+         <div className="text-xl font-semibold text-center mt-16">
+            Loading...
+         </div>
+      );
+   }
 
    return (
       <div className="flex items-center justify-center">
          <div className="w-[600px] p-10 mt-10">
-            <h2 className="text-3xl text-center font-semibold mb-5">Sign Up</h2>
+            <h2 className="text-3xl text-center font-semibold mb-5">
+               Update Profile
+            </h2>
             <div>
                <FormWrapper
                   onSubmit={onSubmit}
                   success={isSuccess}
                   errors={errors}
+                  defaultValues={defaultData}
                >
+                  <InputItem
+                     type="text"
+                     label="Name"
+                     name="name"
+                     placeholder="Enter your name"
+                  />
                   <InputItem
                      type="text"
                      label="Username"
                      name="username"
                      placeholder="Enter your username"
-                     required={true}
                   />
                   <InputItem
                      type="email"
                      label="Email"
                      name="email"
                      placeholder="Enter your email"
-                     required={true}
                   />
                   <InputItem
-                     type="password"
-                     label="Password"
-                     name="password"
-                     placeholder="Enter your password"
-                     required={true}
+                     type="text"
+                     label="Phone"
+                     name="phone"
+                     placeholder="Enter your phone"
                   />
                   <InputItem
-                     type="password"
-                     label="Confirm Password"
-                     name="confirmPassword"
-                     placeholder="Enter your Confirm password"
-                     required={true}
+                     type="text"
+                     label="PhotoURL"
+                     name="photoURL"
+                     placeholder="Enter your photoURL"
                   />
+
                   <Button
                      type="submit"
                      className="w-full mt-5"
                   >
-                     Sign Up
+                     Save Change
                   </Button>
-                  <p className="text-center text-gray-500 mt-4">
-                     Already have an account?{" "}
-                     <Link
-                        href="/login"
-                        className="font-semibold text-gray-800 hover:text-primary"
-                     >
-                        Sign in
-                     </Link>
-                  </p>
                </FormWrapper>
             </div>
          </div>
@@ -103,4 +126,4 @@ const RegisterPage = () => {
    );
 };
 
-export default RegisterPage;
+export default UpdateProfilePage;

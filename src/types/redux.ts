@@ -10,3 +10,8 @@ type ResponseData<T> = {
 };
 
 export type TRtqQueryResponse<T> = ResponseData<T>;
+
+export type TQueryParams = {
+   name: string;
+   value: React.Key | boolean;
+};

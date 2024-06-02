@@ -1,12 +1,14 @@
 import { apiMethod } from "@/constants/apiMethod";
 import { baseApi } from "./baseApi";
-import { TRtqQueryResponse } from "@/types/redux";
+import { TQueryParams, TRtqQueryResponse } from "@/types/redux";
 import {
    TFoundItem,
    TMyFoundItem,
    TMySingleFoundItem,
    TSingleFoundReport,
+   TUpdateFoundReport,
 } from "@/types/foundItem";
+import { makeQueryParams } from "@/utils/reduxApi";
 
 const foundItemApi = baseApi.injectEndpoints({
    endpoints: (build) => ({
@@ -19,10 +21,15 @@ const foundItemApi = baseApi.injectEndpoints({
          invalidatesTags: ["found-items"],
       }),
       getMyAllFoundReport: build.query<TRtqQueryResponse<TMyFoundItem[]>, any>({
-         query: () => ({
-            url: "/found-items/my",
-            method: apiMethod.GET,
-         }),
+         query: (args: { query?: TQueryParams[] }) => {
+            const params = makeQueryParams(args?.query);
+
+            return {
+               url: "/found-items/my",
+               method: apiMethod.GET,
+               params: params,
+            };
+         },
       }),
       getMySingleFoundReport: build.query<
          TRtqQueryResponse<TMySingleFoundItem>,
@@ -34,10 +41,14 @@ const foundItemApi = baseApi.injectEndpoints({
          }),
       }),
       getAllFoundReport: build.query<TRtqQueryResponse<TFoundItem[]>, any>({
-         query: () => ({
-            url: "/found-items",
-            method: apiMethod.GET,
-         }),
+         query: (args: { query?: TQueryParams[] }) => {
+            const params = makeQueryParams(args?.query);
+            return {
+               url: "/found-items",
+               method: apiMethod.GET,
+               params: params,
+            };
+         },
          providesTags: ["found-items"],
       }),
       getSingleFoundReport: build.query<
@@ -50,7 +61,7 @@ const foundItemApi = baseApi.injectEndpoints({
          }),
       }),
       updateFoundReport: build.mutation({
-         query: ({ data, id }) => ({
+         query: ({ data, id }: { id: string; data: TUpdateFoundReport }) => ({
             url: `/found-items/${id}`,
             method: apiMethod.PUT,
             body: data,
