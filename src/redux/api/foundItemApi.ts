@@ -18,7 +18,7 @@ const foundItemApi = baseApi.injectEndpoints({
             method: apiMethod.POST,
             body: data,
          }),
-         invalidatesTags: ["found-items"],
+         invalidatesTags: ["found-items", "my-found-item"],
       }),
       getMyAllFoundReport: build.query<TRtqQueryResponse<TMyFoundItem[]>, any>({
          query: (args: { query?: TQueryParams[] }) => {
@@ -30,6 +30,7 @@ const foundItemApi = baseApi.injectEndpoints({
                params: params,
             };
          },
+         providesTags: ["my-found-item"],
       }),
       getMySingleFoundReport: build.query<
          TRtqQueryResponse<TMySingleFoundItem>,
@@ -66,14 +67,14 @@ const foundItemApi = baseApi.injectEndpoints({
             method: apiMethod.PUT,
             body: data,
          }),
-         invalidatesTags: ["found-items"],
+         invalidatesTags: ["found-items", "my-found-item"],
       }),
       deleteFoundReport: build.mutation({
          query: ({ id }) => ({
             url: `/found-items/${id}`,
             method: apiMethod.DELETE,
          }),
-         invalidatesTags: ["found-items"],
+         invalidatesTags: ["found-items", "my-found-item"],
       }),
    }),
 });

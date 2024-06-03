@@ -17,7 +17,6 @@ const baseQuery = fetchBaseQuery({
    prepareHeaders: (headers, { getState }) => {
       // get token in state
       const token = (getState() as RootState).auth.token;
-      console.log(token);
       if (token) {
          headers.set("authorization", token);
       }
@@ -52,7 +51,16 @@ export const baseApi = createApi({
    reducerPath: "api",
    baseQuery: baseQueryTokenChecking,
    endpoints: () => ({}),
-   tagTypes: ["auth", "users", "lost-items", "found-items", "claim-items"],
+   tagTypes: [
+      "auth",
+      "users",
+      "lost-items",
+      "my-lost-item",
+      "found-items",
+      "my-found-item",
+      "claim-items",
+      "my-claim-item",
+   ],
 });
 
 interface TErrorData {

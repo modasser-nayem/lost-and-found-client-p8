@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Lost and Found System
+
+<a name="readme-top"></a>
+
+### Live Link: [https://lost-and-found-client-p8.vercel.app/](https://lost-and-found-client-p8.vercel.app/)
+
+### Server code: [https://github.com/modasser-nayem/lost-and-found-server-p8](https://github.com/modasser-nayem/lost-and-found-server-p8.git)
+
+<br/>
+<!-- ABOUT THE PROJECT -->
+
+## About
+
+The Lost & Found website is a community-driven platform designed to help individuals report and reclaim lost items. By facilitating the reporting of both lost and found items, the website aims to create a seamless process for reuniting people with their belongings. The platform includes user-friendly features for reporting items, verifying ownership, and managing user profiles, with additional administrative tools for overseeing site activity and user management.
+
+## Features
+
+### Authentication
+
+-  register user
+-  secure login user
+-  password change
+
+### Lost
+
+-  report lost item
+-  update lost item
+-  get lost item
+-  all lost report
+
+### Found
+
+-  report found item
+-  update found item
+-  get found item
+-  all found report
+-  approved or reject claim request
+
+### My Profile
+
+-  Account information
+-  My Claim request
+-  My Lost Reports
+-  My Found Item
+
+### Dashboard
+
+-  User management
+-  Website Activity Monitoring
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the repository:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+git clone https://github.com/modasser-nayem/lost-and-found-client-p8.git
+
+cd lost-and-found-client-p8
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 3. Set Environment Variables:
 
-## Learn More
+Create a `.env` file in the root directory and define the required environment variables. include necessary variables.
 
-To learn more about Next.js, take a look at the following resources:
+```
+NEXT_PUBLIC_BACKEND_API_URL
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Run the Application:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+-  For development:
 
-## Deploy on Vercel
+```
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-  For production:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+npm start
+```
+
+### 5. Build the Application:
+
+```
+npm run build
+```
+
+### 5. run eslint:
+
+```
+npm run lint
+```
+
+## Built With
+
+-  Next.js
+-  Typescript
+-  Tailwind CSS
+-  Redux Toolkit
+-  Redux RTQ Query
+
+<!-- ACKNOWLEDGMENTS -->
+
+## Acknowledgments
+
+-  jwt-decode
+-  moment js
+-  redux persist
+-  sonner
+
+<!-- CONTACT -->
+
+## Contact
+
+Ali Modasser Nayem - [Linkedin](https://www.linkedin.com/in/alimodassernayem/) [Portfolio](https://alimodassernayem.vercel.app/)
+
+Email: modassernayem@gimail.com
+
+<p align="right"><a href="#readme-top">back to top</a></p>

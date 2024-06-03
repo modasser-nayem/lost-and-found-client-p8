@@ -17,7 +17,12 @@ const claimApi = baseApi.injectEndpoints({
             method: apiMethod.POST,
             body: data,
          }),
-         invalidatesTags: ["claim-items", "found-items"],
+         invalidatesTags: [
+            "claim-items",
+            "found-items",
+            "my-found-item",
+            "my-found-item",
+         ],
       }),
       getSingleClaimRequest: build.query<
          TRtqQueryResponse<TSingleClaimRequest>,
@@ -50,6 +55,7 @@ const claimApi = baseApi.injectEndpoints({
                params: params,
             };
          },
+         providesTags: ["my-claim-item"],
       }),
       updateClaimRequestStatus: build.mutation({
          query: ({ id, status }: { id: string; status: string }) => ({
@@ -57,7 +63,12 @@ const claimApi = baseApi.injectEndpoints({
             method: apiMethod.PATCH,
             body: { status },
          }),
-         invalidatesTags: ["claim-items", "found-items"],
+         invalidatesTags: [
+            "claim-items",
+            "found-items",
+            "my-found-item",
+            "my-found-item",
+         ],
       }),
       updateClaimRequest: build.mutation({
          query: ({ id, data }: { id: string; data: TUpdateClaimRequest }) => ({
@@ -65,14 +76,19 @@ const claimApi = baseApi.injectEndpoints({
             method: apiMethod.PUT,
             body: data,
          }),
-         invalidatesTags: ["claim-items"],
+         invalidatesTags: ["claim-items", "my-claim-item"],
       }),
       deleteClaimRequest: build.mutation({
          query: ({ id }: { id: string }) => ({
             url: `/claims/${id}`,
             method: apiMethod.DELETE,
          }),
-         invalidatesTags: ["claim-items", "found-items"],
+         invalidatesTags: [
+            "claim-items",
+            "my-claim-item",
+            "found-items",
+            "my-found-item",
+         ],
       }),
    }),
 });

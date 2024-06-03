@@ -30,7 +30,6 @@ const UpdateLostReportPage = () => {
 
          updateLostReport({ id: lostReportId, data: formData });
       } catch (error: any) {
-         console.log(error);
          toast.error("Something went wrong! try again.");
       }
    };
@@ -40,7 +39,6 @@ const UpdateLostReportPage = () => {
          toast.success(data.message);
          router.push("/my-lost-reports");
       }
-      console.log({ error, data });
       if (isReduxRTQError(error)) {
          if (error?.data?.errorDetails) {
             setErrors(error.data.errorDetails);

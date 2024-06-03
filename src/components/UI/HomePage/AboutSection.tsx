@@ -4,10 +4,12 @@ import teamImage from "@/assets/about/team1.png";
 
 const AboutSection = () => {
    return (
-      <div className="container flex items-center justify-center">
-         <div className="grid grid-cols-2 items-center justify-center gap-16 max-w-[1250px]">
-            <div className="">
-               <h2 className="text-4xl font-bold mb-5">About Us</h2>
+      <div className="container flex items-center justify-center mb-10 mb:my-20">
+         <div className="flex flex-col md:flex-row items-center justify-center gap-16 max-w-[1250px]">
+            <div className="flex-1">
+               <h2 className="text-4xl font-bold mb-5 text-center md:text-start">
+                  About Us
+               </h2>
                <p>
                   The Lost & Found website is a community-driven platform
                   designed to help individuals report and reclaim lost items. By

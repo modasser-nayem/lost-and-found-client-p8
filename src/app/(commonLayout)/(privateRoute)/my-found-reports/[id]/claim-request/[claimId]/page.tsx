@@ -37,8 +37,7 @@ const ClaimRequestDetailsPage = () => {
       try {
          updateClaimRequestStatus(formData);
       } catch (error: any) {
-         console.log(error);
-         toast.error("An error occurred during update claim status.");
+         toast.error("Something went wrong! try again.");
       }
    };
 

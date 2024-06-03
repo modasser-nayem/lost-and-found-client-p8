@@ -23,8 +23,7 @@ const RegisterPage = () => {
       try {
          registerUser(formData);
       } catch (error: any) {
-         console.log(error);
-         toast.error("An error occurred during registration.");
+         toast.error("Something went wrong! try again.");
       }
    };
 
@@ -33,7 +32,6 @@ const RegisterPage = () => {
          toast.success(data.message);
          router.push("/login");
       }
-      console.log({ error, data });
       if (isReduxRTQError(error)) {
          if (error?.data?.errorDetails) {
             setErrors(error.data.errorDetails);

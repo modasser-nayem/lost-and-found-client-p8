@@ -19,8 +19,7 @@ const ChangePassword = () => {
       try {
          changePassword(formData);
       } catch (error: any) {
-         console.log(error);
-         toast.error("An error occurred during password change.");
+         toast.error("Something went wrong! try again.");
       }
    };
 
@@ -28,7 +27,6 @@ const ChangePassword = () => {
       if (data) {
          toast.success(data.message);
       }
-      console.log({ error, data });
       if (isReduxRTQError(error)) {
          if (error?.data?.errorDetails) {
             setErrors(error.data.errorDetails);

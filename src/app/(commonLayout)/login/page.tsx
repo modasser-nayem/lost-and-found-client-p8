@@ -25,8 +25,7 @@ const LoginPage = () => {
       try {
          loginUser(formData);
       } catch (error: any) {
-         console.log(error);
-         toast.error("An error occurred during login.");
+         toast.error("Something went wrong! try again.");
       }
    };
 
@@ -38,7 +37,6 @@ const LoginPage = () => {
          dispatch(setUser({ token: token, user }));
          router.push("/");
       }
-      console.log({ error, data });
       if (isReduxRTQError(error)) {
          if (error?.data?.errorDetails) {
             setErrors(error.data.errorDetails);

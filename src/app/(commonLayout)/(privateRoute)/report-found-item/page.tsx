@@ -29,8 +29,7 @@ const ReportFoundItemPage = () => {
 
          reportFoundItem(formData);
       } catch (error: any) {
-         console.log(error);
-         toast.error("An error occurred during report found item.");
+         toast.error("Something went wrong! try again.");
       }
    };
 

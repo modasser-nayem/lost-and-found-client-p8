@@ -28,8 +28,7 @@ const ReportLostItemPage = () => {
 
          reportLostItem(formData);
       } catch (error: any) {
-         console.log(error);
-         toast.error("An error occurred during report found item.");
+         toast.error("Something went wrong! try again.");
       }
    };
 
@@ -38,7 +37,6 @@ const ReportLostItemPage = () => {
          toast.success(data.message);
          router.push("/my-lost-reports");
       }
-      console.log({ error, data });
       if (isReduxRTQError(error)) {
          if (error?.data?.errorDetails) {
             setErrors(error.data.errorDetails);

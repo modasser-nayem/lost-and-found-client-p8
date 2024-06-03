@@ -19,6 +19,7 @@ const config: Config = {
       },
       container: {
          center: true,
+         padding: "1rem",
          screens: {
             sm: "100%", // At small screens and up
             md: "640px", // At medium screens and up

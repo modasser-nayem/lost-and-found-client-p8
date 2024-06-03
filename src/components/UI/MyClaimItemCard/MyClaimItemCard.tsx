@@ -39,7 +39,6 @@ const MyClaimItemCard = ({ item }: ItemCardProps) => {
 
          updateClaimRequest({ id: item.id, data: formData });
       } catch (error: any) {
-         console.log(error);
          toast.error("Something went wrong! try again.");
       }
    };

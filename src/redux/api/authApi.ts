@@ -10,7 +10,7 @@ const authApi = baseApi.injectEndpoints({
             method: apiMethod.POST,
             body: data,
          }),
-         invalidatesTags: ["auth"],
+         invalidatesTags: ["auth", "users"],
       }),
       loginUser: build.mutation({
          query: (data: Partial<TLoginUser>) => ({
@@ -18,6 +18,7 @@ const authApi = baseApi.injectEndpoints({
             method: apiMethod.POST,
             body: data,
          }),
+         invalidatesTags: ["auth"],
       }),
       changePassword: build.mutation({
          query: (data: Partial<TChangePassword>) => ({

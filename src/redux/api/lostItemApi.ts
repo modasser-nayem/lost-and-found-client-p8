@@ -17,7 +17,7 @@ const lostItemApi = baseApi.injectEndpoints({
             method: apiMethod.POST,
             body: data,
          }),
-         invalidatesTags: ["lost-items"],
+         invalidatesTags: ["lost-items", "my-lost-item"],
       }),
       getMyAllLostReport: build.query<TRtqQueryResponse<TMyLostItem[]>, any>({
          query: (args: { query?: TQueryParams[] }) => {
@@ -28,7 +28,7 @@ const lostItemApi = baseApi.injectEndpoints({
                params: params,
             };
          },
-         providesTags: ["lost-items"],
+         providesTags: ["my-lost-item"],
       }),
       getAllLostReport: build.query<TRtqQueryResponse<TLostItem[]>, any>({
          query: (args: { query?: TQueryParams[] }) => {
@@ -55,21 +55,21 @@ const lostItemApi = baseApi.injectEndpoints({
             method: apiMethod.PUT,
             body: data,
          }),
-         invalidatesTags: ["lost-items"],
+         invalidatesTags: ["lost-items", "my-lost-item"],
       }),
       deleteLostReport: build.mutation({
          query: ({ id }: { id: string }) => ({
             url: `/lost-items/${id}`,
             method: apiMethod.DELETE,
          }),
-         invalidatesTags: ["lost-items"],
+         invalidatesTags: ["lost-items", "my-lost-item"],
       }),
       markAsFoundLostItem: build.mutation({
          query: ({ id }: { id: string }) => ({
             url: `/lost-items/${id}`,
             method: apiMethod.PATCH,
          }),
-         invalidatesTags: ["lost-items"],
+         invalidatesTags: ["lost-items", "my-lost-item"],
       }),
    }),
 });

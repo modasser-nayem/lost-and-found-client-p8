@@ -71,9 +71,7 @@ const Navbar = () => {
    const clickOutside = (e: any) => {
       if (clickRef.current && !clickRef.current.contains(e.target)) {
          setIsOpen(false);
-         console.log("click");
       } else if (e.target.className === "uppercase cursor-pointer nav-link") {
-         console.log("click-nav");
          setIsOpen(false);
       }
    };
@@ -85,17 +83,19 @@ const Navbar = () => {
       >
          <div className="container mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
-               <div className="flex items-center gap-3">
-                  <Image
-                     src={logo}
-                     alt="Lost and found logo"
-                     width={50}
-                     height={50}
-                  />
-                  <h2 className="text-2xl uppercase font-semibold hidden lg:block">
-                     Lost & Found
-                  </h2>
-               </div>
+               <Link href="/">
+                  <div className="flex items-center gap-3">
+                     <Image
+                        src={logo}
+                        alt="Lost and found logo"
+                        width={50}
+                        height={50}
+                     />
+                     <h2 className="text-2xl uppercase font-semibold hidden lg:block">
+                        Lost & Found
+                     </h2>
+                  </div>
+               </Link>
                <button
                   onClick={() => setIsOpen(!isOpen)}
                   className="lg:hidden text-3xl"
