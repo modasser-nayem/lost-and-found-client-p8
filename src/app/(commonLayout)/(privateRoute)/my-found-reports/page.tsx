@@ -1,10 +1,14 @@
 "use client";
+import LoadingSkeleton from "@/components/Shared/LoadingSkeleton/LoadingSkeleton";
+import NetworkError from "@/components/Shared/NetworkError";
 import MyFoundItemCard from "@/components/UI/MyFoundItemCard/MyFoundItemCard";
 import { useGetMyAllFoundReportQuery } from "@/redux/api/foundItemApi";
 import React from "react";
 
 const MyFoundReportsPage = () => {
-   const { data } = useGetMyAllFoundReportQuery(undefined);
+   const { data, isLoading, isError } = useGetMyAllFoundReportQuery(undefined);
+
+   const myFoundItems = data?.data;
 
    return (
       <div className="container min-h-screen my-[4rem]">
@@ -14,13 +18,19 @@ const MyFoundReportsPage = () => {
             </span>
          </h2>
          <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-            {data?.data &&
-               data.data.map((item) => (
+            {isLoading ? (
+               <LoadingSkeleton />
+            ) : isError ? (
+               <NetworkError />
+            ) : (
+               myFoundItems &&
+               myFoundItems.map((item) => (
                   <MyFoundItemCard
                      key={item.id}
                      item={item}
                   />
-               ))}
+               ))
+            )}
          </div>
       </div>
    );

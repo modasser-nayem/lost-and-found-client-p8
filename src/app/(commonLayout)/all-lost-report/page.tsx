@@ -1,11 +1,15 @@
 "use client";
 
+import LoadingSkeleton from "@/components/Shared/LoadingSkeleton/LoadingSkeleton";
+import NetworkError from "@/components/Shared/NetworkError";
 import LostItemCard from "@/components/UI/LostItemCard/LostItemCard";
 import { useGetAllLostReportQuery } from "@/redux/api/lostItemApi";
 import React from "react";
 
 const AllLostReportPage = () => {
-   const { data } = useGetAllLostReportQuery(undefined);
+   const { data, isLoading, isError } = useGetAllLostReportQuery(undefined);
+
+   const lostReports = data?.data;
 
    return (
       <div className="container min-h-screen my-[4rem]">
@@ -15,13 +19,19 @@ const AllLostReportPage = () => {
             </span>
          </h2>
          <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-            {data?.data &&
-               data.data.map((item) => (
+            {isLoading ? (
+               <LoadingSkeleton />
+            ) : isError ? (
+               <NetworkError />
+            ) : (
+               lostReports &&
+               lostReports.map((item) => (
                   <LostItemCard
                      key={item.id}
                      item={item}
                   />
-               ))}
+               ))
+            )}
          </div>
       </div>
    );

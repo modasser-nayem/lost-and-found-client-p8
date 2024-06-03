@@ -1,17 +1,23 @@
 "use client";
 
+import LoadingSkeleton from "@/components/Shared/LoadingSkeleton/LoadingSkeleton";
+import NetworkError from "@/components/Shared/NetworkError";
 import DashboardCard from "@/components/UI/Dashboard/DashboardPage/DashboardCard";
 import { useGetTotalCountReportQuery } from "@/redux/api/reportApi";
 import React from "react";
 
 const DashboardPage = () => {
-   const { data } = useGetTotalCountReportQuery(undefined);
+   const { data, isLoading, isError } = useGetTotalCountReportQuery(undefined);
    const result = data?.data;
 
    return (
-      <>
-         {result && (
-            <div>
+      <div>
+         {isLoading ? (
+            <LoadingSkeleton />
+         ) : isError ? (
+            <NetworkError />
+         ) : (
+            result && (
                <div className="grid grid-cols-3 gap-10">
                   <DashboardCard
                      title="Total Lost Report"
@@ -42,9 +48,9 @@ const DashboardPage = () => {
                      value={result.totalClaimRequestRejected}
                   />
                </div>
-            </div>
+            )
          )}
-      </>
+      </div>
    );
 };
 

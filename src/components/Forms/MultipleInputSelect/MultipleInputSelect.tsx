@@ -40,9 +40,9 @@ const MultipleInputSelect: React.FC<MultipleInputSelectProps> = ({
             {values.map((value, index) => (
                <div
                   key={index}
-                  className="flex items-center gap-1 px-2 py-1 bg-gray-200 text-gray-800 rounded-full"
+                  className="max-w-[400px] text-wrap flex items-center gap-1 px-2 py-1 bg-gray-200 text-gray-800 rounded-full"
                >
-                  <span>{value}</span>
+                  <span className="text-wrap">{value}</span>
                   <button
                      type="button"
                      onClick={() => handleRemoveValue(index)}
