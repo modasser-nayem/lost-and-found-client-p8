@@ -13,11 +13,13 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const LoginPage = () => {
    const router = useRouter();
    const [errors, setErrors] = useState([]);
    const dispatch = useAppDispatch();
+   const [isOpenCredential, setIsOpenCredential] = useState(false);
 
    const [loginUser, { data, error, isSuccess }] = useLoginUserMutation();
 
@@ -51,6 +53,40 @@ const LoginPage = () => {
          <div className="w-[600px] p-10 mt-10">
             <h2 className="text-3xl text-center font-semibold mb-5">Sign In</h2>
             <div className="">
+               <div className="mb-4">
+                  <div
+                     className="flex items-center gap-5 cursor-pointer"
+                     onClick={() => setIsOpenCredential(!isOpenCredential)}
+                  >
+                     <h2 className="font-medium">See Credential</h2>
+                     {isOpenCredential ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                  </div>
+                  {isOpenCredential && (
+                     <div>
+                        {[
+                           {
+                              role: "admin",
+                              email: "nayem@gmail.com",
+                              password: "123456",
+                           },
+                           {
+                              role: "user",
+                              email: "sayem@gmail.com",
+                              password: "123456",
+                           },
+                        ].map((item, i) => (
+                           <div
+                              key={i}
+                              className="p-2"
+                           >
+                              <p>Role: {item.role}</p>
+                              <p className="pl-2">email: {item.email}</p>
+                              <p className="pl-2">password: {item.password}</p>
+                           </div>
+                        ))}
+                     </div>
+                  )}
+               </div>
                <FormWrapper
                   onSubmit={onSubmit}
                   success={isSuccess}
